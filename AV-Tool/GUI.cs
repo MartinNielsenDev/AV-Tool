@@ -47,6 +47,7 @@ namespace AV_Tool
             Program.gui.totalFileSizeTextBox.Text = "";
             Program.loginPrompt.Hide();
             Program.gui.urlTextBox.Text = Program.gui.urlTextBox.Text.Replace("#", "");
+            CreateDownloadOptions();
             Downloader.abort = false;
             Downloader.PrepareDownload();
         }
@@ -63,6 +64,26 @@ namespace AV_Tool
                 process.Kill();
             }
             Downloader.abort = true;
+        }
+
+        public void CreateDownloadOptions()
+        {
+            if (this.InvokeRequired)
+            {
+                Invoke(new Action(CreateDownloadOptions));
+            }
+            else
+            {
+                Downloader.downloadOptions = new Downloader.DownloadOptions(
+                    Program.gui.urlTextBox.Lines,
+                    Program.gui.forceCheckBox.Checked,
+                    Program.gui.audioCheckBox.Checked,
+                    Program.gui.videoCheckBox.Checked,
+                    Program.gui.qualityTrackBar.Value,
+                    Program.loginPrompt.usernameTextBox.Text,
+                    Program.loginPrompt.passwordTextBox.Text
+                    );
+            }
         }
 
         public void AppendLog(string message, bool newLine, bool isVerbose = false)
@@ -188,7 +209,7 @@ namespace AV_Tool
         {
             FolderBrowserDialog folderDialog = new FolderBrowserDialog();
 
-            if(folderDialog.ShowDialog() == DialogResult.OK)
+            if (folderDialog.ShowDialog() == DialogResult.OK)
             {
                 File.WriteAllText(Path.Combine(Downloader.path, "downloadLocation"), folderDialog.SelectedPath);
                 Downloader.downloadPath = folderDialog.SelectedPath;

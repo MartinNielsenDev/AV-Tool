@@ -9,13 +9,15 @@ namespace AV_Tool
 {
     class Downloader
     {
+        public static DownloadOptions downloadOptions;
         public static string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "av-tool");
         public static string downloadPath = "";
+        public static string playlistFolder = "";
+        public static string currentFileName = "";
         public static bool abort = false;
         public static List<string> fileSizes = new List<string>();
         static bool isConverting = false;
         static bool isDownloading = false;
-        static string currentFileName = "";
 
         public static void SetupFiles()
         {
@@ -55,16 +57,31 @@ namespace AV_Tool
                 }
             }
         }
+        private static void MoveDownloadedFile()
+        {
+            try
+            {
+                if (playlistFolder != "" && currentFileName != "")
+                {
+                    string[] fileSearch = Directory.GetFiles(downloadPath, $"{currentFileName}*");
+                    if (fileSearch.Length > 0 && !File.Exists(Path.Combine(downloadPath, playlistFolder, Path.GetFileName(fileSearch[0]))))
+                    {
+                        File.Move(fileSearch[0], Path.Combine(downloadPath, playlistFolder, Path.GetFileName(fileSearch[0])));
+                    }
+                }
+            }
+            catch { }
+        }
         public static void PrepareDownload(bool recursive = false)
         {
             string url = "";
-            string[] urls = Program.gui.urlTextBox.Lines;
+            string[] urls = downloadOptions.Lines;
 
             for (int i = 0; i < urls.Length; i++)
             {
                 if(!urls[i].StartsWith("#") && urls[i] != "")
                 {
-                    url = Program.gui.urlTextBox.Lines[i].Trim(); ;
+                    url = urls[i].Trim();
                     urls[i] = $"# {url}";
                     break;
                 }
@@ -75,6 +92,7 @@ namespace AV_Tool
             {
                 if (recursive)
                 {
+                    MoveDownloadedFile();
                     Program.gui.AppendLog("====== Finish ======", true);
                 }
                 else
@@ -84,24 +102,27 @@ namespace AV_Tool
                 Program.gui.ToggleElements(true);
                 return;
             }
+            MoveDownloadedFile();
             fileSizes.Clear();
             currentFileName = "";
+            playlistFolder = "";
+
             Program.gui.ToggleElements(false);
             Program.gui.AppendLog($"====== Starting download of {url} ======", true);
 
             Action action = 0;
 
-            if (Program.gui.forceCheckBox.Checked)
+            if (downloadOptions.Force)
             {
-                if (Program.gui.audioCheckBox.Checked) action = Action.AudioForced;
-                else if (Program.gui.videoCheckBox.Checked) action = Action.VideoForced;
+                if (downloadOptions.Audio) action = Action.AudioForced;
+                else if (downloadOptions.Video) action = Action.VideoForced;
             }
             else
             {
-                if (Program.gui.audioCheckBox.Checked) action = Action.Audio;
-                else if (Program.gui.videoCheckBox.Checked) action = Action.Video;
+                if (downloadOptions.Audio) action = Action.Audio;
+                else if (downloadOptions.Video) action = Action.Video;
             }
-            Download(url, action, Program.gui.qualityTrackBar.Value, Program.loginPrompt.usernameTextBox.Text, Program.loginPrompt.passwordTextBox.Text);
+            Download(url, action, downloadOptions.Quality, downloadOptions.Username, downloadOptions.Password);
         }
         public static void Download(string url, Action action, int quality, string username, string password)
         {
@@ -111,7 +132,6 @@ namespace AV_Tool
             {
                 case Action.Audio:
                     argument = $"-o \"{downloadPath}\\%(title)s.%(ext)s\" --ignore-errors --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} --extract-audio {url}";
-                    Console.WriteLine(argument);
                     break;
                 case Action.AudioForced:
                     argument = $"-o \"{downloadPath}\\%(title)s.%(ext)s\" --ignore-errors --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} --audio-quality {quality} --audio-format mp3 --extract-audio {url}";
@@ -169,6 +189,32 @@ namespace AV_Tool
                         match.Groups[5].Value);
 
                 }
+                else if (e.Data.Contains("Downloading playlist"))
+                {
+                    match = Regex.Match(e.Data, @"Downloading playlist: (.*)");
+
+                    if (match.Success)
+                    {
+                        for(int i = 0; i < match.Groups[1].Value.Length; i++)
+                        {
+                            bool valid = true;
+                            foreach (char invalidChar in Path.GetInvalidPathChars())
+                            {
+                                if(match.Groups[1].Value[i] == invalidChar)
+                                {
+                                    valid = false;
+                                    break;
+                                }
+                            }
+
+                            if(valid)
+                            {
+                                playlistFolder += match.Groups[1].Value[i];
+                            }
+                        }
+                        Directory.CreateDirectory(Path.Combine(downloadPath, playlistFolder));
+                    }
+                }
                 else if (e.Data.Contains("Downloading video"))
                 {
                     match = Regex.Match(e.Data, @"Downloading video (\d*) of (\d*)");
@@ -203,12 +249,14 @@ namespace AV_Tool
 
                     if (match.Success)
                     {
-                        string[] split = match.Groups[1].Value.Split('.');
-                        if (split.Length > 0 && !Path.GetFileName(split[0]).Equals(currentFileName))
+                        string fileName = Path.GetFileNameWithoutExtension(match.Groups[1].Value);
+                        if (!Path.GetFileName(fileName).Equals(currentFileName))
                         {
+                            MoveDownloadedFile();
                             isDownloading = true;
-                            currentFileName = Path.GetFileName(split[0]);
+                            currentFileName = fileName;
                             Program.gui.AppendLog($"Downloading ({currentFileName})...", false);
+                            
                         }
                     }
                 }
@@ -242,6 +290,27 @@ namespace AV_Tool
             AudioForced = 1,
             Video = 2,
             VideoForced = 3
+        }
+        public class DownloadOptions
+        {
+            public string[] Lines;
+            public bool Force;
+            public bool Audio;
+            public bool Video;
+            public int Quality;
+            public string Username;
+            public string Password;
+
+            public DownloadOptions(string[] lines, bool force, bool audio, bool video, int quality, string username, string password)
+            {
+                Lines = lines;
+                Force = force;
+                Audio = audio;
+                Video = video;
+                Quality = quality;
+                Username = username;
+                Password = password;
+            }
         }
     }
 }

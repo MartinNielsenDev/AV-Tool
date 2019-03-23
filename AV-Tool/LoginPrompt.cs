@@ -22,6 +22,7 @@ namespace AV_Tool
                 Hide();
                 Program.gui.urlTextBox.Text = Program.gui.urlTextBox.Text.Replace("#", "");
                 Program.gui.totalFileSizeTextBox.Text = "";
+                Program.gui.CreateDownloadOptions();
                 Downloader.abort = false;
                 Downloader.PrepareDownload();
             }

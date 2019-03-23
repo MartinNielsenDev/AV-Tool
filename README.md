@@ -27,7 +27,7 @@ I have made sure to make it as easy as possible, everything needed is included i
 If AV Tool does not run, you may not have .NET Framework 4.6.1 installed, this version comes with Windows 10, but if you run on Windows 8 or earlier you can simply download and install it [here](https://www.microsoft.com/en-us/download/details.aspx?id=49981)
 
 ## Info
-When you launch AV-Tool.exe it will do a whether an update is available, if there is you will be prompted and have the option to download the update.
+When you launch AV-Tool.exe it will check whether an update is available, if there is you will be prompted and have the option to download the update.
 
 The quality slider only works for MP3 conversion
 
