@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
 
 namespace AV_Tool
@@ -175,6 +176,23 @@ namespace AV_Tool
                 {
                     Program.gui.downloadProgressBar.Style = ProgressBarStyle.Marquee;
                 }
+            }
+        }
+
+        private void GUI_Shown(object sender, EventArgs e)
+        {
+            Downloader.SetupFiles();
+        }
+
+        private void downloadLocationBrowseButton_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folderDialog = new FolderBrowserDialog();
+
+            if(folderDialog.ShowDialog() == DialogResult.OK)
+            {
+                File.WriteAllText(Path.Combine(Downloader.path, "downloadLocation"), folderDialog.SelectedPath);
+                Downloader.downloadPath = folderDialog.SelectedPath;
+                downloadLocationTextBox.Text = folderDialog.SelectedPath;
             }
         }
     }

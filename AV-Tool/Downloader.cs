@@ -9,19 +9,30 @@ namespace AV_Tool
 {
     class Downloader
     {
-        static readonly string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "av-tool");
+        public static string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "av-tool");
+        public static string downloadPath = "";
+        public static bool abort = false;
+        public static List<string> fileSizes = new List<string>();
         static bool isConverting = false;
         static bool isDownloading = false;
         static string currentFileName = "";
-        public static bool abort = false;
-        public static List<string> fileSizes = new List<string>();
 
-        public static void UnpackFiles()
+        public static void SetupFiles()
         {
             Directory.CreateDirectory(path);
-            WriteAssemblies();
+            if (File.Exists(Path.Combine(path, "downloadLocation")))
+            {
+                downloadPath = File.ReadAllText(Path.Combine(path, "downloadLocation"));
+            }
+            else
+            {
+                downloadPath = Directory.GetCurrentDirectory();
+                File.WriteAllText(Path.Combine(path, "downloadLocation"), downloadPath);
+            }
+            Program.gui.downloadLocationTextBox.Text = downloadPath;
+            UnpackFiles();
         }
-        public static void WriteAssemblies()
+        public static void UnpackFiles()
         {
             string[] assemblyNames = { "youtube-dl.exe", "ffmpeg.exe" };
 
@@ -99,16 +110,17 @@ namespace AV_Tool
             switch (action)
             {
                 case Action.Audio:
-                    argument = $"-o %(title)s.%(ext)s --ignore-errors --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} --extract-audio {url}";
+                    argument = $"-o \"{downloadPath}\\%(title)s.%(ext)s\" --ignore-errors --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} --extract-audio {url}";
+                    Console.WriteLine(argument);
                     break;
                 case Action.AudioForced:
-                    argument = $"-o %(title)s.%(ext)s --ignore-errors --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} --audio-quality {quality} --audio-format mp3 --extract-audio {url}";
+                    argument = $"-o \"{downloadPath}\\%(title)s.%(ext)s\" --ignore-errors --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} --audio-quality {quality} --audio-format mp3 --extract-audio {url}";
                     break;
                 case Action.Video:
-                    argument = $"-o %(title)s.%(ext)s --ignore-errors --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} {url}";
+                    argument = $"-o \"{downloadPath}\\%(title)s.%(ext)s\" --ignore-errors --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} {url}";
                     break;
                 case Action.VideoForced:
-                    argument = $"-o %(title)s.%(ext)s --ignore-errors --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} --recode-video mp4 {url}";
+                    argument = $"-o \"{downloadPath}\\%(title)s.%(ext)s\" --ignore-errors --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} --recode-video mp4 {url}";
                     break;
             }
             if (username != "" && password != "")
@@ -159,7 +171,7 @@ namespace AV_Tool
                 }
                 else if (e.Data.Contains("Downloading video"))
                 {
-                    match = Regex.Match(e.Data, @"Downloading video (\d) of (\d)");
+                    match = Regex.Match(e.Data, @"Downloading video (\d*) of (\d*)");
 
                     if (match.Success)
                     {
@@ -192,10 +204,10 @@ namespace AV_Tool
                     if (match.Success)
                     {
                         string[] split = match.Groups[1].Value.Split('.');
-                        if (split.Length > 0 && !split[0].Equals(currentFileName))
+                        if (split.Length > 0 && !Path.GetFileName(split[0]).Equals(currentFileName))
                         {
                             isDownloading = true;
-                            currentFileName = split[0];
+                            currentFileName = Path.GetFileName(split[0]);
                             Program.gui.AppendLog($"Downloading ({currentFileName})...", false);
                         }
                     }

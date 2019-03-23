@@ -50,6 +50,10 @@
             this.urlTextBox = new System.Windows.Forms.TextBox();
             this.abortButton = new System.Windows.Forms.Button();
             this.verboseLogsCheckBox = new System.Windows.Forms.CheckBox();
+            this.downloadLocationTextBox = new System.Windows.Forms.TextBox();
+            this.downloadLocationLabel = new System.Windows.Forms.Label();
+            this.downloadLocationBrowseButton = new System.Windows.Forms.Button();
+            this.downloadLocationFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.downloadOptionsGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.qualityTrackBar)).BeginInit();
             this.downloadInformationGroupBox.SuspendLayout();
@@ -65,7 +69,7 @@
             this.downloadOptionsGroupBox.Controls.Add(this.videoCheckBox);
             this.downloadOptionsGroupBox.Controls.Add(this.audioCheckBox);
             this.downloadOptionsGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.downloadOptionsGroupBox.Location = new System.Drawing.Point(12, 12);
+            this.downloadOptionsGroupBox.Location = new System.Drawing.Point(12, 34);
             this.downloadOptionsGroupBox.Name = "downloadOptionsGroupBox";
             this.downloadOptionsGroupBox.Size = new System.Drawing.Size(316, 202);
             this.downloadOptionsGroupBox.TabIndex = 0;
@@ -80,7 +84,7 @@
             this.forceCheckBox.Location = new System.Drawing.Point(22, 82);
             this.forceCheckBox.Name = "forceCheckBox";
             this.forceCheckBox.Size = new System.Drawing.Size(132, 20);
-            this.forceCheckBox.TabIndex = 3;
+            this.forceCheckBox.TabIndex = 2;
             this.forceCheckBox.Text = "Force MP3 format";
             this.forceCheckBox.UseVisualStyleBackColor = true;
             this.forceCheckBox.CheckedChanged += new System.EventHandler(this.forceCheckBox_CheckedChanged);
@@ -125,7 +129,7 @@
             this.qualityTrackBar.Name = "qualityTrackBar";
             this.qualityTrackBar.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.qualityTrackBar.Size = new System.Drawing.Size(223, 26);
-            this.qualityTrackBar.TabIndex = 0;
+            this.qualityTrackBar.TabIndex = 3;
             this.qualityTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
             // 
             // videoCheckBox
@@ -136,7 +140,7 @@
             this.videoCheckBox.Location = new System.Drawing.Point(22, 57);
             this.videoCheckBox.Name = "videoCheckBox";
             this.videoCheckBox.Size = new System.Drawing.Size(125, 20);
-            this.videoCheckBox.TabIndex = 2;
+            this.videoCheckBox.TabIndex = 1;
             this.videoCheckBox.Text = "Download video";
             this.videoCheckBox.UseVisualStyleBackColor = true;
             this.videoCheckBox.CheckedChanged += new System.EventHandler(this.videoCheckBox_CheckedChanged);
@@ -151,7 +155,7 @@
             this.audioCheckBox.Location = new System.Drawing.Point(22, 32);
             this.audioCheckBox.Name = "audioCheckBox";
             this.audioCheckBox.Size = new System.Drawing.Size(125, 20);
-            this.audioCheckBox.TabIndex = 1;
+            this.audioCheckBox.TabIndex = 0;
             this.audioCheckBox.Text = "Download audio";
             this.audioCheckBox.UseVisualStyleBackColor = true;
             this.audioCheckBox.CheckedChanged += new System.EventHandler(this.audioCheckBox_CheckedChanged);
@@ -165,10 +169,10 @@
             this.downloadInformationGroupBox.Controls.Add(this.totalFileSizeLabel);
             this.downloadInformationGroupBox.Controls.Add(this.totalFileSizeTextBox);
             this.downloadInformationGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.downloadInformationGroupBox.Location = new System.Drawing.Point(334, 12);
+            this.downloadInformationGroupBox.Location = new System.Drawing.Point(334, 34);
             this.downloadInformationGroupBox.Name = "downloadInformationGroupBox";
             this.downloadInformationGroupBox.Size = new System.Drawing.Size(316, 202);
-            this.downloadInformationGroupBox.TabIndex = 0;
+            this.downloadInformationGroupBox.TabIndex = 1;
             this.downloadInformationGroupBox.TabStop = false;
             this.downloadInformationGroupBox.Text = "Information";
             // 
@@ -226,40 +230,40 @@
             this.totalFileSizeTextBox.Name = "totalFileSizeTextBox";
             this.totalFileSizeTextBox.ReadOnly = true;
             this.totalFileSizeTextBox.Size = new System.Drawing.Size(188, 21);
-            this.totalFileSizeTextBox.TabIndex = 1;
+            this.totalFileSizeTextBox.TabIndex = 999;
             // 
             // downloadButton
             // 
             this.downloadButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.downloadButton.FlatAppearance.BorderSize = 0;
             this.downloadButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.downloadButton.Location = new System.Drawing.Point(14, 307);
+            this.downloadButton.Location = new System.Drawing.Point(14, 329);
             this.downloadButton.Name = "downloadButton";
             this.downloadButton.Size = new System.Drawing.Size(145, 35);
-            this.downloadButton.TabIndex = 0;
+            this.downloadButton.TabIndex = 2;
             this.downloadButton.Text = "Download";
             this.downloadButton.UseVisualStyleBackColor = true;
             this.downloadButton.Click += new System.EventHandler(this.downloadButton_Click);
             // 
             // logTextBox
             // 
-            this.logTextBox.Location = new System.Drawing.Point(14, 365);
+            this.logTextBox.Location = new System.Drawing.Point(14, 387);
             this.logTextBox.Multiline = true;
             this.logTextBox.Name = "logTextBox";
             this.logTextBox.ReadOnly = true;
             this.logTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.logTextBox.Size = new System.Drawing.Size(634, 127);
-            this.logTextBox.TabIndex = 0;
+            this.logTextBox.TabIndex = 6;
             // 
             // downloadWithLoginButton
             // 
             this.downloadWithLoginButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.downloadWithLoginButton.FlatAppearance.BorderSize = 0;
             this.downloadWithLoginButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.downloadWithLoginButton.Location = new System.Drawing.Point(165, 307);
+            this.downloadWithLoginButton.Location = new System.Drawing.Point(165, 329);
             this.downloadWithLoginButton.Name = "downloadWithLoginButton";
             this.downloadWithLoginButton.Size = new System.Drawing.Size(145, 35);
-            this.downloadWithLoginButton.TabIndex = 1;
+            this.downloadWithLoginButton.TabIndex = 3;
             this.downloadWithLoginButton.Text = "Download with login";
             this.downloadWithLoginButton.UseVisualStyleBackColor = true;
             this.downloadWithLoginButton.Click += new System.EventHandler(this.downloadWithLoginButton_Click);
@@ -267,19 +271,19 @@
             // urlTextBox
             // 
             this.urlTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.urlTextBox.Location = new System.Drawing.Point(12, 220);
+            this.urlTextBox.Location = new System.Drawing.Point(12, 242);
             this.urlTextBox.Multiline = true;
             this.urlTextBox.Name = "urlTextBox";
             this.urlTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.urlTextBox.Size = new System.Drawing.Size(638, 81);
-            this.urlTextBox.TabIndex = 2;
+            this.urlTextBox.TabIndex = 1;
             // 
             // abortButton
             // 
             this.abortButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.abortButton.FlatAppearance.BorderSize = 0;
             this.abortButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.abortButton.Location = new System.Drawing.Point(528, 307);
+            this.abortButton.Location = new System.Drawing.Point(528, 329);
             this.abortButton.Name = "abortButton";
             this.abortButton.Size = new System.Drawing.Size(120, 35);
             this.abortButton.TabIndex = 4;
@@ -291,18 +295,52 @@
             // 
             this.verboseLogsCheckBox.AutoSize = true;
             this.verboseLogsCheckBox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.verboseLogsCheckBox.Location = new System.Drawing.Point(15, 346);
+            this.verboseLogsCheckBox.Location = new System.Drawing.Point(15, 368);
             this.verboseLogsCheckBox.Name = "verboseLogsCheckBox";
             this.verboseLogsCheckBox.Size = new System.Drawing.Size(87, 17);
-            this.verboseLogsCheckBox.TabIndex = 4;
+            this.verboseLogsCheckBox.TabIndex = 5;
             this.verboseLogsCheckBox.Text = "Verbose logs";
             this.verboseLogsCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // downloadLocationTextBox
+            // 
+            this.downloadLocationTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.downloadLocationTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.downloadLocationTextBox.Location = new System.Drawing.Point(99, 7);
+            this.downloadLocationTextBox.Name = "downloadLocationTextBox";
+            this.downloadLocationTextBox.ReadOnly = true;
+            this.downloadLocationTextBox.Size = new System.Drawing.Size(489, 21);
+            this.downloadLocationTextBox.TabIndex = 7;
+            // 
+            // downloadLocationLabel
+            // 
+            this.downloadLocationLabel.AutoSize = true;
+            this.downloadLocationLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.downloadLocationLabel.Location = new System.Drawing.Point(9, 9);
+            this.downloadLocationLabel.Name = "downloadLocationLabel";
+            this.downloadLocationLabel.Size = new System.Drawing.Size(84, 16);
+            this.downloadLocationLabel.TabIndex = 0;
+            this.downloadLocationLabel.Text = "File Location";
+            this.downloadLocationLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // downloadLocationBrowseButton
+            // 
+            this.downloadLocationBrowseButton.Location = new System.Drawing.Point(594, 6);
+            this.downloadLocationBrowseButton.Name = "downloadLocationBrowseButton";
+            this.downloadLocationBrowseButton.Size = new System.Drawing.Size(56, 23);
+            this.downloadLocationBrowseButton.TabIndex = 0;
+            this.downloadLocationBrowseButton.Text = "...";
+            this.downloadLocationBrowseButton.UseVisualStyleBackColor = true;
+            this.downloadLocationBrowseButton.Click += new System.EventHandler(this.downloadLocationBrowseButton_Click);
             // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(660, 503);
+            this.ClientSize = new System.Drawing.Size(660, 526);
+            this.Controls.Add(this.downloadLocationBrowseButton);
+            this.Controls.Add(this.downloadLocationLabel);
+            this.Controls.Add(this.downloadLocationTextBox);
             this.Controls.Add(this.verboseLogsCheckBox);
             this.Controls.Add(this.abortButton);
             this.Controls.Add(this.downloadWithLoginButton);
@@ -315,7 +353,8 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "AV Tool v1.0.0";
+            this.Text = "AV Tool v1.1.0";
+            this.Shown += new System.EventHandler(this.GUI_Shown);
             this.downloadOptionsGroupBox.ResumeLayout(false);
             this.downloadOptionsGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.qualityTrackBar)).EndInit();
@@ -348,6 +387,10 @@
         public System.Windows.Forms.TextBox urlTextBox;
         public System.Windows.Forms.Button abortButton;
         public System.Windows.Forms.CheckBox verboseLogsCheckBox;
+        public System.Windows.Forms.TextBox downloadLocationTextBox;
+        private System.Windows.Forms.Label downloadLocationLabel;
+        private System.Windows.Forms.Button downloadLocationBrowseButton;
+        private System.Windows.Forms.FolderBrowserDialog downloadLocationFolderBrowserDialog;
     }
 }
 

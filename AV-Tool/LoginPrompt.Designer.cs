@@ -40,9 +40,9 @@
             // downloadButton
             // 
             this.downloadButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.downloadButton.Location = new System.Drawing.Point(151, 230);
+            this.downloadButton.Location = new System.Drawing.Point(139, 230);
             this.downloadButton.Name = "downloadButton";
-            this.downloadButton.Size = new System.Drawing.Size(120, 35);
+            this.downloadButton.Size = new System.Drawing.Size(145, 35);
             this.downloadButton.TabIndex = 2;
             this.downloadButton.Text = "Download with login";
             this.downloadButton.UseVisualStyleBackColor = true;

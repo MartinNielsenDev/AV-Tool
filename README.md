@@ -2,7 +2,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/65594ghmtjavjw29?svg=true)](https://ci.appveyor.com/project/MartinNielsenDev/av-tool)
 [![Latest Release](https://img.shields.io/github/release/martinnielsendev/av-tool.svg)](https://github.com/MartinNielsenDev/av-tool/releases)
 
-![av tool](https://i.imgur.com/RiG56lf.png)
+![av tool](https://i.imgur.com/1LVY3BC.jpg)
 
 ## What does it do?
 My AV tool makes it easier to download and convert audio or videos with an accessible interface, actual download functionality is done by youtube-dl and conversion is done through ffmpeg

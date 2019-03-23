@@ -30,9 +30,9 @@ namespace AV_Tool
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             if (Updater.CheckNewestVersion()) return;
-            Downloader.UnpackFiles();
             gui = new GUI();
             loginPrompt = new LoginPrompt();
+
             Application.Run(gui);
         }
     }
