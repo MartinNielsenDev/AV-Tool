@@ -353,7 +353,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "AV Tool v1.2.0";
+            this.Text = "AV Tool";
             this.Shown += new System.EventHandler(this.GUI_Shown);
             this.downloadOptionsGroupBox.ResumeLayout(false);
             this.downloadOptionsGroupBox.PerformLayout();

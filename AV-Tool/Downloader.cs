@@ -16,6 +16,7 @@ namespace AV_Tool
         public static string currentFileName = "";
         public static bool abort = false;
         public static List<string> fileSizes = new List<string>();
+        public static List<string> fileNames = new List<string>();
         static bool isConverting = false;
         static bool isDownloading = false;
 
@@ -61,13 +62,20 @@ namespace AV_Tool
         {
             try
             {
-                if (playlistFolder != "" && currentFileName != "")
+                if (playlistFolder != "")
                 {
-                    string[] fileSearch = Directory.GetFiles(downloadPath, $"{currentFileName}*");
-                    if (fileSearch.Length > 0 && !File.Exists(Path.Combine(downloadPath, playlistFolder, Path.GetFileName(fileSearch[0]))))
+                    Program.gui.AppendLog($"Moving {fileNames.Count} files to {playlistFolder}...", false);
+
+                    for (int i = 0; i < fileNames.Count; i++)
                     {
-                        File.Move(fileSearch[0], Path.Combine(downloadPath, playlistFolder, Path.GetFileName(fileSearch[0])));
+                        string[] fileSearch = Directory.GetFiles(downloadPath, $"*{fileNames[i]}*");
+
+                        if (fileSearch.Length > 0 && !File.Exists(Path.Combine(downloadPath, playlistFolder, Path.GetFileName(fileSearch[0]))))
+                        {
+                            File.Move(fileSearch[0], Path.Combine(downloadPath, playlistFolder, Path.GetFileName(fileSearch[0])));
+                        }
                     }
+                    Program.gui.AppendLog($" complete", true);
                 }
             }
             catch { }
@@ -92,7 +100,6 @@ namespace AV_Tool
             {
                 if (recursive)
                 {
-                    MoveDownloadedFile();
                     Program.gui.AppendLog("====== Finish ======", true);
                 }
                 else
@@ -102,8 +109,8 @@ namespace AV_Tool
                 Program.gui.ToggleElements(true);
                 return;
             }
-            MoveDownloadedFile();
             fileSizes.Clear();
+            fileNames.Clear();
             currentFileName = "";
             playlistFolder = "";
 
@@ -250,13 +257,13 @@ namespace AV_Tool
                     if (match.Success)
                     {
                         string fileName = Path.GetFileNameWithoutExtension(match.Groups[1].Value);
+
                         if (!Path.GetFileName(fileName).Equals(currentFileName))
                         {
-                            MoveDownloadedFile();
                             isDownloading = true;
                             currentFileName = fileName;
+                            fileNames.Add(fileName);
                             Program.gui.AppendLog($"Downloading ({currentFileName})...", false);
-                            
                         }
                     }
                 }
@@ -281,6 +288,7 @@ namespace AV_Tool
             }
             else
             {
+                MoveDownloadedFile();
                 PrepareDownload(true);
             }
         }
