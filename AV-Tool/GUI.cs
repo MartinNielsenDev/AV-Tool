@@ -63,6 +63,10 @@ namespace AV_Tool
             {
                 process.Kill();
             }
+            foreach (Process process in Process.GetProcessesByName("ffmpeg"))
+            {
+                process.Kill();
+            }
             Downloader.abort = true;
         }
 
@@ -188,6 +192,7 @@ namespace AV_Tool
                 downloadButton.Enabled = choice;
                 downloadWithLoginButton.Enabled = choice;
                 urlTextBox.Enabled = choice;
+                downloadLocationBrowseButton.Enabled = choice;
 
                 if (choice)
                 {

@@ -257,7 +257,16 @@ namespace AV_Tool
                     if (match.Success)
                     {
                         string fileName = Path.GetFileNameWithoutExtension(match.Groups[1].Value);
+                        string[] splitFileName = fileName.Split('.');
 
+                        if(splitFileName.Length > 1)
+                        {
+                            fileName = splitFileName[splitFileName.Length - 2];
+                        }
+                        else
+                        {
+                            fileName = splitFileName[splitFileName.Length - 1];
+                        }
                         if (!Path.GetFileName(fileName).Equals(currentFileName))
                         {
                             isDownloading = true;
