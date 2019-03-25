@@ -205,6 +205,18 @@ namespace AV_Tool
             }
         }
 
+        public void ToggleDownloadBar(ProgressBarStyle style)
+        {
+            if (audioCheckBox.InvokeRequired)
+            {
+                Invoke(new Action<ProgressBarStyle>(ToggleDownloadBar), new object[] { style });
+            }
+            else
+            {
+                Program.gui.downloadProgressBar.Style = style;
+            }
+        }
+
         private void GUI_Shown(object sender, EventArgs e)
         {
             Downloader.SetupFiles();

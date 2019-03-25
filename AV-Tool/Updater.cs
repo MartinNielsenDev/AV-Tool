@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Windows.Forms;
 using Newtonsoft.Json;
@@ -8,9 +8,9 @@ namespace AV_Tool
 {
     class Updater
     {
-        static readonly string thisVersion = "1.2.2";
+        static readonly string thisVersion = "1.2.3";
 
-        public static bool CheckNewestVersion()
+        public static void CheckNewestVersion()
         {
             try
             {
@@ -29,17 +29,22 @@ namespace AV_Tool
 
                     if (serverVersion.IsNewerThan(localVersion))
                     {
-                        DialogResult answer = MessageBox.Show($"Found a new update! AV-Tool v{json.tag_name}\r\n\r\n\r\nWould you like to download the update?", $"AV-Tool v{thisVersion}", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                        if (answer == DialogResult.Yes)
+                        string[] changeLogOnly = json.body.Split(new string[] { "```" }, StringSplitOptions.None);
+
+                        if (changeLogOnly.Length == 3)
                         {
-                            Process.Start(json.assets[0].browser_download_url);
-                            return true;
+                            UpdateNotificationForm updateForm = new UpdateNotificationForm();
+                            updateForm.installedVersionLabel.Text += thisVersion;
+                            updateForm.newestVersionLabel.Text += json.tag_name;
+                            updateForm.changeLogTextBox.Text = changeLogOnly[1].Trim();
+                            updateForm.downloadUrl = json.assets[0].browser_download_url;
+                            updateForm.downloadSize = json.assets[0].size;
+                            Application.Run(updateForm);
                         }
                     }
                 }
             }
             catch { }
-            return false;
         }
         public class Json
         {

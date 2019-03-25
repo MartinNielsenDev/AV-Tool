@@ -3,9 +3,9 @@ using System.Windows.Forms;
 
 namespace AV_Tool
 {
-    public partial class LoginPrompt : Form
+    public partial class LoginForm : Form
     {
-        public LoginPrompt()
+        public LoginForm()
         {
             InitializeComponent();
         }

@@ -8,7 +8,7 @@ namespace AV_Tool
     static class Program
     {
         public static GUI gui;
-        public static LoginPrompt loginPrompt;
+        public static LoginForm loginPrompt;
 
         [STAThread]
         static void Main()
@@ -29,9 +29,10 @@ namespace AV_Tool
             });
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            if (Updater.CheckNewestVersion()) return;
+
+            Updater.CheckNewestVersion();
             gui = new GUI();
-            loginPrompt = new LoginPrompt();
+            loginPrompt = new LoginForm();
 
             Application.Run(gui);
         }

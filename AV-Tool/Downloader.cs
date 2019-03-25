@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace AV_Tool
 {
@@ -257,22 +258,19 @@ namespace AV_Tool
                     if (match.Success)
                     {
                         string fileName = Path.GetFileNameWithoutExtension(match.Groups[1].Value);
-                        string[] splitFileName = fileName.Split('.');
 
-                        if(splitFileName.Length > 1)
+                        if(downloadOptions.Video)
                         {
-                            fileName = splitFileName[splitFileName.Length - 2];
+                            fileName = new Regex("\\.f[0-9]{3,3}").Replace(fileName, "", 1);
                         }
-                        else
-                        {
-                            fileName = splitFileName[splitFileName.Length - 1];
-                        }
+  
                         if (!Path.GetFileName(fileName).Equals(currentFileName))
                         {
                             isDownloading = true;
                             currentFileName = fileName;
                             fileNames.Add(fileName);
-                            Program.gui.AppendLog($"Downloading ({currentFileName})...", false);
+                            Program.gui.AppendLog($"Downloading ({fileName})...", false);
+                            Program.gui.ToggleDownloadBar(ProgressBarStyle.Blocks);
                         }
                     }
                 }

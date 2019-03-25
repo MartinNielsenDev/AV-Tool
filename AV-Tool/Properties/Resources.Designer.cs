@@ -61,12 +61,12 @@ namespace AV_Tool.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Icon icon {
+        internal static System.Drawing.Bitmap small_icon {
             get {
-                object obj = ResourceManager.GetObject("icon", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
+                object obj = ResourceManager.GetObject("small_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

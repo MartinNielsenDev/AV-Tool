@@ -1,6 +1,6 @@
 ﻿namespace AV_Tool
 {
-    partial class LoginPrompt
+    partial class LoginForm
     {
         /// <summary>
         /// Required designer variable.
