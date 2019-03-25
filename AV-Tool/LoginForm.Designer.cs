@@ -40,6 +40,7 @@
             // downloadButton
             // 
             this.downloadButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.downloadButton.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.downloadButton.Location = new System.Drawing.Point(139, 230);
             this.downloadButton.Name = "downloadButton";
             this.downloadButton.Size = new System.Drawing.Size(145, 35);
@@ -51,16 +52,17 @@
             // infoHeaderLabel
             // 
             this.infoHeaderLabel.AutoSize = true;
-            this.infoHeaderLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.infoHeaderLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.infoHeaderLabel.ForeColor = System.Drawing.Color.OrangeRed;
             this.infoHeaderLabel.Location = new System.Drawing.Point(162, 17);
             this.infoHeaderLabel.Name = "infoHeaderLabel";
-            this.infoHeaderLabel.Size = new System.Drawing.Size(99, 16);
+            this.infoHeaderLabel.Size = new System.Drawing.Size(81, 17);
             this.infoHeaderLabel.TabIndex = 3;
             this.infoHeaderLabel.Text = "Please Read";
             // 
             // infoLabel
             // 
+            this.infoLabel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.infoLabel.Location = new System.Drawing.Point(30, 39);
             this.infoLabel.Name = "infoLabel";
             this.infoLabel.Size = new System.Drawing.Size(362, 84);
@@ -73,19 +75,20 @@
             // passwordTextBox
             // 
             this.passwordTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.passwordTextBox.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.passwordTextBox.Location = new System.Drawing.Point(164, 184);
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.PasswordChar = '*';
-            this.passwordTextBox.Size = new System.Drawing.Size(188, 20);
+            this.passwordTextBox.Size = new System.Drawing.Size(188, 25);
             this.passwordTextBox.TabIndex = 7;
             // 
             // passwordLabel
             // 
             this.passwordLabel.AutoSize = true;
-            this.passwordLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.passwordLabel.Location = new System.Drawing.Point(71, 186);
+            this.passwordLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.passwordLabel.Location = new System.Drawing.Point(71, 187);
             this.passwordLabel.Name = "passwordLabel";
-            this.passwordLabel.Size = new System.Drawing.Size(68, 16);
+            this.passwordLabel.Size = new System.Drawing.Size(64, 17);
             this.passwordLabel.TabIndex = 8;
             this.passwordLabel.Text = "Password";
             this.passwordLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -93,23 +96,24 @@
             // usernameTextBox
             // 
             this.usernameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.usernameTextBox.Location = new System.Drawing.Point(164, 157);
+            this.usernameTextBox.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.usernameTextBox.Location = new System.Drawing.Point(164, 156);
             this.usernameTextBox.Name = "usernameTextBox";
-            this.usernameTextBox.Size = new System.Drawing.Size(188, 20);
+            this.usernameTextBox.Size = new System.Drawing.Size(188, 25);
             this.usernameTextBox.TabIndex = 5;
             // 
             // usernameLabel
             // 
             this.usernameLabel.AutoSize = true;
-            this.usernameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.usernameLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.usernameLabel.Location = new System.Drawing.Point(71, 159);
             this.usernameLabel.Name = "usernameLabel";
-            this.usernameLabel.Size = new System.Drawing.Size(71, 16);
+            this.usernameLabel.Size = new System.Drawing.Size(67, 17);
             this.usernameLabel.TabIndex = 6;
             this.usernameLabel.Text = "Username";
             this.usernameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // LoginPrompt
+            // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -122,7 +126,7 @@
             this.Controls.Add(this.infoHeaderLabel);
             this.Controls.Add(this.downloadButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "LoginPrompt";
+            this.Name = "LoginForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

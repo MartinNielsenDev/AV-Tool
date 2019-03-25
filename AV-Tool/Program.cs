@@ -29,7 +29,6 @@ namespace AV_Tool
             });
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
             Updater.CheckNewestVersion();
             gui = new GUI();
             loginPrompt = new LoginForm();

@@ -8,7 +8,7 @@ namespace AV_Tool
 {
     class Updater
     {
-        static readonly string thisVersion = "1.2.3";
+        static readonly string thisVersion = "1.3.0";
 
         public static void CheckNewestVersion()
         {

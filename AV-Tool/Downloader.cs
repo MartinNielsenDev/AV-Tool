@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -18,12 +21,15 @@ namespace AV_Tool
         public static bool abort = false;
         public static List<string> fileSizes = new List<string>();
         public static List<string> fileNames = new List<string>();
+        static FileStream youtubedlLock, ffmpegLock;
         static bool isConverting = false;
         static bool isDownloading = false;
+        static int downloadersActive = 0;
 
-        public static void SetupFiles()
+        public static void SetupDirectory()
         {
             Directory.CreateDirectory(path);
+
             if (File.Exists(Path.Combine(path, "downloadLocation")))
             {
                 downloadPath = File.ReadAllText(Path.Combine(path, "downloadLocation"));
@@ -33,32 +39,77 @@ namespace AV_Tool
                 downloadPath = Directory.GetCurrentDirectory();
                 File.WriteAllText(Path.Combine(path, "downloadLocation"), downloadPath);
             }
-            Program.gui.downloadLocationTextBox.Text = downloadPath;
-            UnpackFiles();
         }
-        public static void UnpackFiles()
+        public static bool VerifyFiles()
         {
-            string[] assemblyNames = { "youtube-dl.exe", "ffmpeg.exe" };
+            string[] md5LocalHash = { "", "" };
+            string serverResponse;
 
-            for (int i = 0; i < assemblyNames.Length; i++)
+            using (WebClient client = new WebClient())
             {
-                if (File.Exists(Path.Combine(path, assemblyNames[i]))) continue;
+                client.Headers.Add("User-Agent", "Mozilla/5.0");
+                serverResponse = client.DownloadString("https://raw.githubusercontent.com/MartinNielsenDev/AV-Tool/master/fileHash");
+            }
+            string[] md5ServerHash = serverResponse.Split(new string[] { "\n" }, StringSplitOptions.None);
 
-                using (Stream input = Assembly.GetExecutingAssembly().GetManifestResourceStream("AV_Tool.Resources." + assemblyNames[i]))
+            if (md5ServerHash.Length == 2)
+            {
+                using (MD5 md5 = MD5.Create())
                 {
-                    using (Stream output = File.Create(Path.Combine(path, assemblyNames[i])))
+                    if (File.Exists(Path.Combine(path, "youtube-dl.exe")))
                     {
-                        byte[] buffer = new byte[8192];
-                        int bytesRead;
-
-                        while ((bytesRead = input.Read(buffer, 0, buffer.Length)) > 0)
+                        using (FileStream stream = File.OpenRead(Path.Combine(path, "youtube-dl.exe")))
                         {
-                            output.Write(buffer, 0, bytesRead);
+                            md5LocalHash[0] = Convert.ToBase64String(md5.ComputeHash(stream));
+                        }
+                    }
+                    if (File.Exists(Path.Combine(path, "ffmpeg.exe")))
+                    {
+                        using (FileStream stream = File.OpenRead(Path.Combine(path, "ffmpeg.exe")))
+                        {
+                            md5LocalHash[1] = Convert.ToBase64String(md5.ComputeHash(stream));
                         }
                     }
                 }
+                if (!md5ServerHash[0].Equals(md5LocalHash[0]) || !md5ServerHash[1].Equals(md5LocalHash[1]))
+                {
+                    Program.gui.ToggleElements(false);
+                    Program.gui.AppendLog($"Downloading required files, this will only take a moment... {Environment.NewLine}", true);
+                }
+                if (!md5ServerHash[0].Equals(md5LocalHash[0]))
+                {
+                    downloadersActive++;
+                    DownloadUpdate("https://github.com/MartinNielsenDev/AV-Tool/raw/master/AV-Tool/Resources/youtube-dl.exe", "youtube-dl.exe");
+                }
+                if (!md5ServerHash[1].Equals(md5LocalHash[1]))
+                {
+                    downloadersActive++;
+                    DownloadUpdate("https://github.com/MartinNielsenDev/AV-Tool/raw/master/AV-Tool/Resources/ffmpeg.exe", "ffmpeg.exe");
+                }
+                return md5ServerHash[0].Equals(md5LocalHash[0]) && md5ServerHash[1].Equals(md5LocalHash[1]);
             }
+            return true;
         }
+
+        private static void DownloadUpdate(string downloadUrl, string fileName)
+        {
+            try
+            {
+                using (WebClient webClient = new WebClient())
+                {
+                    webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(webClient_DownloadFileCompleted);
+                    webClient.DownloadFileAsync(new Uri(downloadUrl), Path.Combine(path, fileName));
+                }
+            }
+            catch { }
+        }
+
+        public static void LockFiles()
+        {
+            youtubedlLock = new FileStream(Path.Combine(path, "youtube-dl.exe"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            ffmpegLock = new FileStream(Path.Combine(path, "ffmpeg.exe"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        }
+
         private static void MoveDownloadedFile()
         {
             try
@@ -76,7 +127,7 @@ namespace AV_Tool
                             File.Move(fileSearch[0], Path.Combine(downloadPath, playlistFolder, Path.GetFileName(fileSearch[0])));
                         }
                     }
-                    Program.gui.AppendLog($" complete", true);
+                    Program.gui.AppendLog(" complete", true);
                 }
             }
             catch { }
@@ -88,7 +139,7 @@ namespace AV_Tool
 
             for (int i = 0; i < urls.Length; i++)
             {
-                if(!urls[i].StartsWith("#") && urls[i] != "")
+                if (!urls[i].StartsWith("#") && urls[i] != "")
                 {
                     url = urls[i].Trim();
                     urls[i] = $"# {url}";
@@ -155,7 +206,18 @@ namespace AV_Tool
             {
                 argument = $"-u {username} -p {password} {argument}";
             }
-
+            if (!File.Exists(Path.Combine(path, "youtube-dl.exe")))
+            {
+                Program.gui.AppendLog("ERROR: youtube-dl could not be found, please restart AV Tool", true);
+                Program.gui.ToggleElements(true);
+                return;
+            }
+            if (!File.Exists(Path.Combine(path, "ffmpeg.exe")))
+            {
+                Program.gui.AppendLog("ERROR: ffmpeg could not be found, please restart AV Tool", true);
+                Program.gui.ToggleElements(true);
+                return;
+            }
             Process proc = new Process
             {
                 StartInfo = new ProcessStartInfo
@@ -203,19 +265,19 @@ namespace AV_Tool
 
                     if (match.Success)
                     {
-                        for(int i = 0; i < match.Groups[1].Value.Length; i++)
+                        for (int i = 0; i < match.Groups[1].Value.Length; i++)
                         {
                             bool valid = true;
                             foreach (char invalidChar in Path.GetInvalidPathChars())
                             {
-                                if(match.Groups[1].Value[i] == invalidChar)
+                                if (match.Groups[1].Value[i] == invalidChar)
                                 {
                                     valid = false;
                                     break;
                                 }
                             }
 
-                            if(valid)
+                            if (valid)
                             {
                                 playlistFolder += match.Groups[1].Value[i];
                             }
@@ -259,11 +321,11 @@ namespace AV_Tool
                     {
                         string fileName = Path.GetFileNameWithoutExtension(match.Groups[1].Value);
 
-                        if(downloadOptions.Video)
+                        if (downloadOptions.Video)
                         {
                             fileName = new Regex("\\.f[0-9]{3,3}").Replace(fileName, "", 1);
                         }
-  
+
                         if (!Path.GetFileName(fileName).Equals(currentFileName))
                         {
                             isDownloading = true;
@@ -297,6 +359,29 @@ namespace AV_Tool
             {
                 MoveDownloadedFile();
                 PrepareDownload(true);
+            }
+        }
+        private static void webClient_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            downloadersActive--;
+
+            if (downloadersActive == 0)
+            {
+                if (e.Error == null)
+                {
+                    LockFiles();
+                    Program.gui.AppendLog("==== Ready ====", true);
+                    Program.gui.ToggleElements(true);
+                }
+                else
+                {
+                    Program.gui.AppendLog("FATAL ERROR: Could not download required files", true);
+                    Program.gui.AppendLog("You must download youtube-dl.exe and ffmpeg.exe and place them inside the folder", true);
+                    Program.gui.AppendLog(path, true);
+                    Program.gui.AppendLog("youtube-dl: https://youtube-dl.org/", true);
+                    Program.gui.AppendLog("ffmpeg: https://www.ffmpeg.org/", true);
+                    Program.gui.ToggleElements(true);
+                }
             }
         }
         public enum Action

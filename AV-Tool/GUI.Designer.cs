@@ -80,10 +80,10 @@
             // 
             this.forceCheckBox.AutoSize = true;
             this.forceCheckBox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.forceCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.forceCheckBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.forceCheckBox.Location = new System.Drawing.Point(22, 82);
             this.forceCheckBox.Name = "forceCheckBox";
-            this.forceCheckBox.Size = new System.Drawing.Size(132, 20);
+            this.forceCheckBox.Size = new System.Drawing.Size(132, 21);
             this.forceCheckBox.TabIndex = 2;
             this.forceCheckBox.Text = "Force MP3 format";
             this.forceCheckBox.UseVisualStyleBackColor = true;
@@ -92,9 +92,10 @@
             // qualityLowestLabel
             // 
             this.qualityLowestLabel.AutoSize = true;
+            this.qualityLowestLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.qualityLowestLabel.Location = new System.Drawing.Point(235, 166);
             this.qualityLowestLabel.Name = "qualityLowestLabel";
-            this.qualityLowestLabel.Size = new System.Drawing.Size(46, 15);
+            this.qualityLowestLabel.Size = new System.Drawing.Size(48, 17);
             this.qualityLowestLabel.TabIndex = 0;
             this.qualityLowestLabel.Text = "Lowest";
             this.qualityLowestLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -102,9 +103,10 @@
             // qualityHighestLabel
             // 
             this.qualityHighestLabel.AutoSize = true;
+            this.qualityHighestLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.qualityHighestLabel.Location = new System.Drawing.Point(36, 166);
             this.qualityHighestLabel.Name = "qualityHighestLabel";
-            this.qualityHighestLabel.Size = new System.Drawing.Size(49, 15);
+            this.qualityHighestLabel.Size = new System.Drawing.Size(52, 17);
             this.qualityHighestLabel.TabIndex = 0;
             this.qualityHighestLabel.Text = "Highest";
             this.qualityHighestLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -112,10 +114,10 @@
             // qualityLabel
             // 
             this.qualityLabel.AutoSize = true;
-            this.qualityLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.qualityLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.qualityLabel.Location = new System.Drawing.Point(129, 125);
             this.qualityLabel.Name = "qualityLabel";
-            this.qualityLabel.Size = new System.Drawing.Size(49, 16);
+            this.qualityLabel.Size = new System.Drawing.Size(48, 17);
             this.qualityLabel.TabIndex = 0;
             this.qualityLabel.Text = "Quality";
             this.qualityLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -136,10 +138,10 @@
             // 
             this.videoCheckBox.AutoSize = true;
             this.videoCheckBox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.videoCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.videoCheckBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.videoCheckBox.Location = new System.Drawing.Point(22, 57);
             this.videoCheckBox.Name = "videoCheckBox";
-            this.videoCheckBox.Size = new System.Drawing.Size(125, 20);
+            this.videoCheckBox.Size = new System.Drawing.Size(122, 21);
             this.videoCheckBox.TabIndex = 1;
             this.videoCheckBox.Text = "Download video";
             this.videoCheckBox.UseVisualStyleBackColor = true;
@@ -151,10 +153,10 @@
             this.audioCheckBox.Checked = true;
             this.audioCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.audioCheckBox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.audioCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.audioCheckBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.audioCheckBox.Location = new System.Drawing.Point(22, 32);
             this.audioCheckBox.Name = "audioCheckBox";
-            this.audioCheckBox.Size = new System.Drawing.Size(125, 20);
+            this.audioCheckBox.Size = new System.Drawing.Size(123, 21);
             this.audioCheckBox.TabIndex = 0;
             this.audioCheckBox.Text = "Download audio";
             this.audioCheckBox.UseVisualStyleBackColor = true;
@@ -187,6 +189,7 @@
             // 
             // downloadSpeedIndicatorLabel
             // 
+            this.downloadSpeedIndicatorLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.downloadSpeedIndicatorLabel.Location = new System.Drawing.Point(207, 127);
             this.downloadSpeedIndicatorLabel.Name = "downloadSpeedIndicatorLabel";
             this.downloadSpeedIndicatorLabel.Size = new System.Drawing.Size(90, 15);
@@ -197,9 +200,10 @@
             // downloadSpeedLabel
             // 
             this.downloadSpeedLabel.AutoSize = true;
+            this.downloadSpeedLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.downloadSpeedLabel.Location = new System.Drawing.Point(17, 127);
             this.downloadSpeedLabel.Name = "downloadSpeedLabel";
-            this.downloadSpeedLabel.Size = new System.Drawing.Size(106, 15);
+            this.downloadSpeedLabel.Size = new System.Drawing.Size(114, 17);
             this.downloadSpeedLabel.TabIndex = 0;
             this.downloadSpeedLabel.Text = "Download speed: ";
             this.downloadSpeedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -215,10 +219,10 @@
             // totalFileSizeLabel
             // 
             this.totalFileSizeLabel.AutoSize = true;
-            this.totalFileSizeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalFileSizeLabel.Location = new System.Drawing.Point(16, 36);
+            this.totalFileSizeLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.totalFileSizeLabel.Location = new System.Drawing.Point(16, 35);
             this.totalFileSizeLabel.Name = "totalFileSizeLabel";
-            this.totalFileSizeLabel.Size = new System.Drawing.Size(86, 16);
+            this.totalFileSizeLabel.Size = new System.Drawing.Size(83, 17);
             this.totalFileSizeLabel.TabIndex = 2;
             this.totalFileSizeLabel.Text = "Total file size";
             this.totalFileSizeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -226,6 +230,7 @@
             // totalFileSizeTextBox
             // 
             this.totalFileSizeTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.totalFileSizeTextBox.Enabled = false;
             this.totalFileSizeTextBox.Location = new System.Drawing.Point(109, 34);
             this.totalFileSizeTextBox.Name = "totalFileSizeTextBox";
             this.totalFileSizeTextBox.ReadOnly = true;
@@ -236,6 +241,7 @@
             // 
             this.downloadButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.downloadButton.FlatAppearance.BorderSize = 0;
+            this.downloadButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.downloadButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.downloadButton.Location = new System.Drawing.Point(14, 329);
             this.downloadButton.Name = "downloadButton";
@@ -247,6 +253,7 @@
             // 
             // logTextBox
             // 
+            this.logTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.logTextBox.Location = new System.Drawing.Point(14, 387);
             this.logTextBox.Multiline = true;
             this.logTextBox.Name = "logTextBox";
@@ -259,6 +266,7 @@
             // 
             this.downloadWithLoginButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.downloadWithLoginButton.FlatAppearance.BorderSize = 0;
+            this.downloadWithLoginButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.downloadWithLoginButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.downloadWithLoginButton.Location = new System.Drawing.Point(165, 329);
             this.downloadWithLoginButton.Name = "downloadWithLoginButton";
@@ -271,6 +279,7 @@
             // urlTextBox
             // 
             this.urlTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.urlTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.urlTextBox.Location = new System.Drawing.Point(12, 242);
             this.urlTextBox.Multiline = true;
             this.urlTextBox.Name = "urlTextBox";
@@ -282,6 +291,7 @@
             // 
             this.abortButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.abortButton.FlatAppearance.BorderSize = 0;
+            this.abortButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.abortButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.abortButton.Location = new System.Drawing.Point(528, 329);
             this.abortButton.Name = "abortButton";
@@ -315,10 +325,10 @@
             // downloadLocationLabel
             // 
             this.downloadLocationLabel.AutoSize = true;
-            this.downloadLocationLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.downloadLocationLabel.Location = new System.Drawing.Point(9, 9);
+            this.downloadLocationLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.downloadLocationLabel.Location = new System.Drawing.Point(9, 8);
             this.downloadLocationLabel.Name = "downloadLocationLabel";
-            this.downloadLocationLabel.Size = new System.Drawing.Size(84, 16);
+            this.downloadLocationLabel.Size = new System.Drawing.Size(80, 17);
             this.downloadLocationLabel.TabIndex = 0;
             this.downloadLocationLabel.Text = "File Location";
             this.downloadLocationLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -351,6 +361,7 @@
             this.Controls.Add(this.urlTextBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "GUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AV Tool";

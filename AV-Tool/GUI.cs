@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace AV_Tool
@@ -68,6 +69,18 @@ namespace AV_Tool
                 process.Kill();
             }
             Downloader.abort = true;
+        }
+
+        private void downloadLocationBrowseButton_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folderDialog = new FolderBrowserDialog();
+
+            if (folderDialog.ShowDialog() == DialogResult.OK)
+            {
+                File.WriteAllText(Path.Combine(Downloader.path, "downloadLocation"), folderDialog.SelectedPath);
+                Downloader.downloadPath = folderDialog.SelectedPath;
+                downloadLocationTextBox.Text = folderDialog.SelectedPath;
+            }
         }
 
         public void CreateDownloadOptions()
@@ -219,19 +232,16 @@ namespace AV_Tool
 
         private void GUI_Shown(object sender, EventArgs e)
         {
-            Downloader.SetupFiles();
-        }
+            Downloader.SetupDirectory();
+            downloadLocationTextBox.Text = Downloader.downloadPath;
 
-        private void downloadLocationBrowseButton_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog folderDialog = new FolderBrowserDialog();
-
-            if (folderDialog.ShowDialog() == DialogResult.OK)
+            new Thread(() =>
             {
-                File.WriteAllText(Path.Combine(Downloader.path, "downloadLocation"), folderDialog.SelectedPath);
-                Downloader.downloadPath = folderDialog.SelectedPath;
-                downloadLocationTextBox.Text = folderDialog.SelectedPath;
-            }
+                if (Downloader.VerifyFiles())
+                {
+                    Downloader.LockFiles();
+                }
+            }).Start();
         }
     }
 }

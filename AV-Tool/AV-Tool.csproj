@@ -109,10 +109,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\youtube-dl.exe" />
+    <None Include="Resources\youtube-dl.exe" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\ffmpeg.exe" />
+    <None Include="Resources\ffmpeg.exe" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icon.ico" />
