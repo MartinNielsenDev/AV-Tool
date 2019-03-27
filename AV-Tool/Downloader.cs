@@ -47,10 +47,11 @@ namespace AV_Tool
 
             using (WebClient client = new WebClient())
             {
+                client.Headers.Add("Cache-Control", "no-cache");
                 client.Headers.Add("User-Agent", "Mozilla/5.0");
                 serverResponse = client.DownloadString("https://raw.githubusercontent.com/MartinNielsenDev/AV-Tool/master/fileHash");
             }
-            string[] md5ServerHash = serverResponse.Split(new string[] { "\n" }, StringSplitOptions.None);
+            string[] md5ServerHash = serverResponse.Split(new[] { "\n" }, StringSplitOptions.None);
 
             if (md5ServerHash.Length == 2)
             {

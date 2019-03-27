@@ -1,7 +1,8 @@
 # AV Tool - Video / Audio downloader and converter
-![icon](https://raw.githubusercontent.com/MartinNielsenDev/AV-Tool/master/AV-Tool/Resources/small_icon.png)
 [![Build status](https://ci.appveyor.com/api/projects/status/65594ghmtjavjw29?svg=true)](https://ci.appveyor.com/project/MartinNielsenDev/av-tool)
 [![Latest Release](https://img.shields.io/github/release/martinnielsendev/av-tool.svg)](https://github.com/MartinNielsenDev/av-tool/releases)
+
+![icon](https://raw.githubusercontent.com/MartinNielsenDev/AV-Tool/master/AV-Tool/Resources/small_icon.png)
 
 My AV tool makes it easier to download and convert audio or videos with an accessible interface, it uses youtube-dl and ffmpeg for downloading and conversion.
 
