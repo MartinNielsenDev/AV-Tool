@@ -54,7 +54,7 @@
             // laterButton
             // 
             this.laterButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.laterButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.laterButton.Cursor = System.Windows.Forms.Cursors.Default;
             this.laterButton.Location = new System.Drawing.Point(413, 260);
             this.laterButton.Name = "laterButton";
             this.laterButton.Size = new System.Drawing.Size(80, 30);
@@ -66,7 +66,7 @@
             // updateButton
             // 
             this.updateButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.updateButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.updateButton.Cursor = System.Windows.Forms.Cursors.Default;
             this.updateButton.Location = new System.Drawing.Point(327, 260);
             this.updateButton.Name = "updateButton";
             this.updateButton.Size = new System.Drawing.Size(80, 30);

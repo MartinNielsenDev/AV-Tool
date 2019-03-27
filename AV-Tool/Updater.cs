@@ -8,7 +8,7 @@ namespace AV_Tool
 {
     class Updater
     {
-        static readonly string thisVersion = "1.3.0";
+        static readonly string thisVersion = "1.3.1";
 
         public static void CheckNewestVersion()
         {
@@ -17,6 +17,7 @@ namespace AV_Tool
                 string serverResponse;
                 using (WebClient client = new WebClient())
                 {
+                    client.Headers.Add("Cache-Control", "no-cache");
                     client.Headers.Add("User-Agent", "Mozilla/5.0");
                     serverResponse = client.DownloadString("https://api.github.com/repos/MartinNielsenDev/AV-Tool/releases/latest");
                 }
