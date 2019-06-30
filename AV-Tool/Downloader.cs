@@ -62,6 +62,8 @@ namespace AV_Tool
                         using (FileStream stream = File.OpenRead(Path.Combine(path, "youtube-dl.exe")))
                         {
                             md5LocalHash[0] = Convert.ToBase64String(md5.ComputeHash(stream));
+                            //Console.WriteLine("New hash for youtube-dl: " + md5LocalHash[0]);
+                            //Environment.Exit(0);
                         }
                     }
                     if (File.Exists(Path.Combine(path, "ffmpeg.exe")))
