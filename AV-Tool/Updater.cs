@@ -8,7 +8,7 @@ namespace AV_Tool
 {
     class Updater
     {
-        static readonly string thisVersion = "1.3.1";
+        static readonly string thisVersion = "1.3.2";
 
         public static void CheckNewestVersion()
         {
@@ -47,58 +47,23 @@ namespace AV_Tool
             }
             catch { }
         }
-        public class Json
-        {
-            [JsonProperty("tag_name")]
-            public string tag_name { get; set; }
-            [JsonProperty("body")]
-            public string body { get; set; }
-            [JsonProperty("assets")]
-            public List<Assets> assets { get; set; }
-        }
-        public class Assets
-        {
-            [JsonProperty("browser_download_url")]
-            public string browser_download_url { get; set; }
-            [JsonProperty("size")]
-            public int size { get; set; }
-        }
     }
-    class Versioning
+    public class Json
     {
-        public int major = 0;
-        public int minor = 0;
-        public int patch = 0;
-
-        public Versioning(string rawVersion)
-        {
-            string[] versions = rawVersion.Split('.');
-
-            if (versions.Length == 3)
-            {
-                int.TryParse(versions[0], out this.major);
-                int.TryParse(versions[1], out this.minor);
-                int.TryParse(versions[2], out this.patch);
-            }
-        }
-        public bool IsNewerThan(Versioning version)
-        {
-            if (this.major > version.major)
-            {
-                return true;
-            }
-            else if (this.major == version.major)
-            {
-                if (this.minor > version.minor)
-                {
-                    return true;
-                }
-                else if (this.minor == version.minor && this.patch > version.patch)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+        [JsonProperty("tag_name")]
+        public string tag_name { get; set; }
+        [JsonProperty("body")]
+        public string body { get; set; }
+        [JsonProperty("assets")]
+        public List<Assets> assets { get; set; }
+    }
+    public class Assets
+    {
+        [JsonProperty("name")]
+        public string name { get; set; }
+        [JsonProperty("browser_download_url")]
+        public string browser_download_url { get; set; }
+        [JsonProperty("size")]
+        public int size { get; set; }
     }
 }

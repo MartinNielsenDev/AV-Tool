@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -40,6 +41,38 @@ namespace AV_Tool
                 File.WriteAllText(Path.Combine(path, "downloadLocation"), downloadPath);
             }
         }
+        public static string CheckNewestYoutubeDLVersion()
+        {
+            try
+            {
+                string serverResponse = "";
+                string thisVersion = "";
+                using (WebClient client = new WebClient())
+                {
+                    client.Headers.Add("User-Agent", "Mozilla/5.0");
+                    serverResponse = client.DownloadString("https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest");
+                }
+                Json json = JsonConvert.DeserializeObject<Json>(serverResponse);
+
+                if (File.Exists(Path.Combine(path, "youtube-dl.exe")))
+                {
+                    thisVersion = FileVersionInfo.GetVersionInfo(Path.Combine(path, "youtube-dl.exe")).FileVersion;
+                }
+
+                if (json.tag_name.Split('.').Length == 3 && json.assets.Count > 0 && !json.tag_name.Equals(thisVersion))
+                {
+                    for (int i = 0; i < json.assets.Count; i++)
+                    {
+                        if (json.assets[i].name.Equals("youtube-dl.exe"))
+                        {
+                            return json.assets[i].browser_download_url;
+                        }
+                    }
+                }
+            }
+            catch { }
+            return "";
+        }
         public static bool VerifyFiles()
         {
             string[] md5LocalHash = { "", "" };
@@ -55,17 +88,10 @@ namespace AV_Tool
 
             if (md5ServerHash.Length == 2)
             {
+                string ytdlDownloadLink = CheckNewestYoutubeDLVersion();
+
                 using (MD5 md5 = MD5.Create())
                 {
-                    if (File.Exists(Path.Combine(path, "youtube-dl.exe")))
-                    {
-                        using (FileStream stream = File.OpenRead(Path.Combine(path, "youtube-dl.exe")))
-                        {
-                            md5LocalHash[0] = Convert.ToBase64String(md5.ComputeHash(stream));
-                            //Console.WriteLine("New hash for youtube-dl: " + md5LocalHash[0]);
-                            //Environment.Exit(0);
-                        }
-                    }
                     if (File.Exists(Path.Combine(path, "ffmpeg.exe")))
                     {
                         using (FileStream stream = File.OpenRead(Path.Combine(path, "ffmpeg.exe")))
@@ -74,15 +100,15 @@ namespace AV_Tool
                         }
                     }
                 }
-                if (!md5ServerHash[0].Equals(md5LocalHash[0]) || !md5ServerHash[1].Equals(md5LocalHash[1]))
+                if (!ytdlDownloadLink.Equals("") || !md5ServerHash[1].Equals(md5LocalHash[1]))
                 {
                     Program.gui.ToggleElements(false);
                     Program.gui.AppendLog($"Downloading required files, this will only take a moment... {Environment.NewLine}", true);
                 }
-                if (!md5ServerHash[0].Equals(md5LocalHash[0]))
+                if (!ytdlDownloadLink.Equals(""))
                 {
                     downloadersActive++;
-                    DownloadUpdate("https://github.com/MartinNielsenDev/AV-Tool/raw/master/AV-Tool/Resources/youtube-dl.exe", "youtube-dl.exe");
+                    DownloadUpdate(ytdlDownloadLink, "youtube-dl.exe");
                 }
                 if (!md5ServerHash[1].Equals(md5LocalHash[1]))
                 {

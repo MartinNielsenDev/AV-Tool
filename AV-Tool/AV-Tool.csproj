@@ -79,6 +79,7 @@
     </Compile>
     <Compile Include="Updater.cs" />
     <Compile Include="Downloader.cs" />
+    <Compile Include="Versioning.cs" />
     <EmbeddedResource Include="GUI.resx">
       <DependentUpon>GUI.cs</DependentUpon>
     </EmbeddedResource>
@@ -111,9 +112,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\youtube-dl.exe" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ffmpeg.exe" />
