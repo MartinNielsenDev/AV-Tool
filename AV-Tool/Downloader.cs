@@ -1,14 +1,13 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Reflection;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace AV_Tool
 {
@@ -296,17 +295,7 @@ namespace AV_Tool
                     {
                         for (int i = 0; i < match.Groups[1].Value.Length; i++)
                         {
-                            bool valid = true;
-                            foreach (char invalidChar in Path.GetInvalidPathChars())
-                            {
-                                if (match.Groups[1].Value[i] == invalidChar)
-                                {
-                                    valid = false;
-                                    break;
-                                }
-                            }
-
-                            if (valid)
+                            if (Array.IndexOf(Path.GetInvalidFileNameChars(), match.Groups[1].Value[i]) < 0)
                             {
                                 playlistFolder += match.Groups[1].Value[i];
                             }

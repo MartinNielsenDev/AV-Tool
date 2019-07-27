@@ -6,8 +6,6 @@
 
 My AV tool makes it easier to download and convert audio or videos with an accessible interface, it uses youtube-dl and ffmpeg for downloading and conversion.
 
-
-Donations can be made [here](https://paypal.me/avoidlol)
 ## Usage
 1. Download AV-Tool.exe [here](https://github.com/MartinNielsenDev/AV-Tool/releases)
 2. Open AV-Tool.exe
