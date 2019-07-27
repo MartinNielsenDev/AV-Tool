@@ -30,13 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUI));
             this.downloadOptionsGroupBox = new System.Windows.Forms.GroupBox();
+            this.subtitlesComboBox = new System.Windows.Forms.ComboBox();
             this.forceCheckBox = new System.Windows.Forms.CheckBox();
             this.qualityLowestLabel = new System.Windows.Forms.Label();
             this.qualityHighestLabel = new System.Windows.Forms.Label();
             this.qualityLabel = new System.Windows.Forms.Label();
             this.qualityTrackBar = new System.Windows.Forms.TrackBar();
-            this.videoCheckBox = new System.Windows.Forms.CheckBox();
-            this.audioCheckBox = new System.Windows.Forms.CheckBox();
+            this.audioRadioButton = new System.Windows.Forms.RadioButton();
+            this.videoRadioButton = new System.Windows.Forms.RadioButton();
             this.downloadInformationGroupBox = new System.Windows.Forms.GroupBox();
             this.downloadLabel = new System.Windows.Forms.Label();
             this.downloadSpeedIndicatorLabel = new System.Windows.Forms.Label();
@@ -54,6 +55,7 @@
             this.downloadLocationLabel = new System.Windows.Forms.Label();
             this.downloadLocationBrowseButton = new System.Windows.Forms.Button();
             this.downloadLocationFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.subtitleCheckBox = new System.Windows.Forms.CheckBox();
             this.downloadOptionsGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.qualityTrackBar)).BeginInit();
             this.downloadInformationGroupBox.SuspendLayout();
@@ -61,13 +63,15 @@
             // 
             // downloadOptionsGroupBox
             // 
+            this.downloadOptionsGroupBox.Controls.Add(this.subtitleCheckBox);
+            this.downloadOptionsGroupBox.Controls.Add(this.subtitlesComboBox);
             this.downloadOptionsGroupBox.Controls.Add(this.forceCheckBox);
             this.downloadOptionsGroupBox.Controls.Add(this.qualityLowestLabel);
             this.downloadOptionsGroupBox.Controls.Add(this.qualityHighestLabel);
             this.downloadOptionsGroupBox.Controls.Add(this.qualityLabel);
             this.downloadOptionsGroupBox.Controls.Add(this.qualityTrackBar);
-            this.downloadOptionsGroupBox.Controls.Add(this.videoCheckBox);
-            this.downloadOptionsGroupBox.Controls.Add(this.audioCheckBox);
+            this.downloadOptionsGroupBox.Controls.Add(this.audioRadioButton);
+            this.downloadOptionsGroupBox.Controls.Add(this.videoRadioButton);
             this.downloadOptionsGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.downloadOptionsGroupBox.Location = new System.Drawing.Point(12, 34);
             this.downloadOptionsGroupBox.Name = "downloadOptionsGroupBox";
@@ -76,12 +80,152 @@
             this.downloadOptionsGroupBox.TabStop = false;
             this.downloadOptionsGroupBox.Text = "Options";
             // 
+            // subtitlesComboBox
+            // 
+            this.subtitlesComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.subtitlesComboBox.Enabled = false;
+            this.subtitlesComboBox.FormattingEnabled = true;
+            this.subtitlesComboBox.Items.AddRange(new object[] {
+            "Abkhazian",
+            "Afar",
+            "Afrikaans",
+            "Albanian",
+            "Amharic",
+            "Arabic",
+            "Armenian",
+            "Assamese",
+            "Aymara",
+            "Azerbaijani",
+            "Bashkir",
+            "Basque",
+            "Bhutani",
+            "Bihari",
+            "Bislama",
+            "Breton",
+            "Bulgarian",
+            "Burmese",
+            "Byelorussian",
+            "Cambodian",
+            "Catalan",
+            "Chinese",
+            "Corsican",
+            "Croatian",
+            "Czech",
+            "Danish",
+            "Dutch",
+            "English",
+            "Esperanto",
+            "Estonian",
+            "Faeroese",
+            "Fiji",
+            "Finnish",
+            "French",
+            "Frisian",
+            "Galician",
+            "Georgian",
+            "German",
+            "Greek",
+            "Greenlandic",
+            "Guarani",
+            "Gujarati",
+            "Hausa",
+            "Hebrew",
+            "Hindi",
+            "Hungarian",
+            "Icelandic",
+            "Indonesian",
+            "Interlingua",
+            "Interlingue",
+            "Inupiak",
+            "Irish",
+            "Italian",
+            "Japanese",
+            "Javanese",
+            "Kannada",
+            "Kashmiri",
+            "Kazakh",
+            "Kinyarwanda",
+            "Kirghiz",
+            "Kirundi",
+            "Korean",
+            "Kurdish",
+            "Laothian",
+            "Latin",
+            "Lingala",
+            "Lithuanian",
+            "Macedonian",
+            "Malagasy",
+            "Malay",
+            "Malayalam",
+            "Maltese",
+            "Maori",
+            "Marathi",
+            "Moldavian",
+            "Mongolian",
+            "Nauru",
+            "Nepali",
+            "Norwegian",
+            "Occitan",
+            "Oriya",
+            "Persian",
+            "Polish",
+            "Portuguese",
+            "Punjabi",
+            "Quechua",
+            "Romanian",
+            "Russian",
+            "Samoan",
+            "Sangro",
+            "Sanskrit",
+            "Serbian",
+            "Sesotho",
+            "Setswana",
+            "Shona",
+            "Sindhi",
+            "Singhalese",
+            "Siswati",
+            "Slovak",
+            "Slovenian",
+            "Somali",
+            "Spanish",
+            "Sudanese",
+            "Swahili",
+            "Swedish",
+            "Tagalog",
+            "Tajik",
+            "Tamil",
+            "Tatar",
+            "Tegulu",
+            "Thai",
+            "Tibetan",
+            "Tigrinya",
+            "Tonga",
+            "Tsonga",
+            "Turkish",
+            "Turkmen",
+            "Twi",
+            "Ukrainian",
+            "Urdu",
+            "Uzbek",
+            "Vietnamese",
+            "Volapuk",
+            "Welsh",
+            "Wolof",
+            "Xhosa",
+            "Yiddish",
+            "Yoruba",
+            "Zulu"});
+            this.subtitlesComboBox.Location = new System.Drawing.Point(177, 56);
+            this.subtitlesComboBox.Name = "subtitlesComboBox";
+            this.subtitlesComboBox.Size = new System.Drawing.Size(132, 23);
+            this.subtitlesComboBox.TabIndex = 0;
+            // 
             // forceCheckBox
             // 
             this.forceCheckBox.AutoSize = true;
-            this.forceCheckBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.forceCheckBox.Cursor = System.Windows.Forms.Cursors.Default;
             this.forceCheckBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.forceCheckBox.Location = new System.Drawing.Point(22, 82);
+            this.forceCheckBox.Location = new System.Drawing.Point(22, 84);
             this.forceCheckBox.Name = "forceCheckBox";
             this.forceCheckBox.Size = new System.Drawing.Size(132, 21);
             this.forceCheckBox.TabIndex = 2;
@@ -134,33 +278,31 @@
             this.qualityTrackBar.TabIndex = 3;
             this.qualityTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
             // 
-            // videoCheckBox
+            // audioRadioButton
             // 
-            this.videoCheckBox.AutoSize = true;
-            this.videoCheckBox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.videoCheckBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.videoCheckBox.Location = new System.Drawing.Point(22, 57);
-            this.videoCheckBox.Name = "videoCheckBox";
-            this.videoCheckBox.Size = new System.Drawing.Size(122, 21);
-            this.videoCheckBox.TabIndex = 1;
-            this.videoCheckBox.Text = "Download video";
-            this.videoCheckBox.UseVisualStyleBackColor = true;
-            this.videoCheckBox.CheckedChanged += new System.EventHandler(this.videoCheckBox_CheckedChanged);
+            this.audioRadioButton.AutoSize = true;
+            this.audioRadioButton.Checked = true;
+            this.audioRadioButton.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.audioRadioButton.Location = new System.Drawing.Point(22, 32);
+            this.audioRadioButton.Name = "audioRadioButton";
+            this.audioRadioButton.Size = new System.Drawing.Size(150, 21);
+            this.audioRadioButton.TabIndex = 0;
+            this.audioRadioButton.TabStop = true;
+            this.audioRadioButton.Text = "Download audio only";
+            this.audioRadioButton.UseVisualStyleBackColor = true;
+            this.audioRadioButton.CheckedChanged += new System.EventHandler(this.audioRadioButton_CheckedChanged);
             // 
-            // audioCheckBox
+            // videoRadioButton
             // 
-            this.audioCheckBox.AutoSize = true;
-            this.audioCheckBox.Checked = true;
-            this.audioCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.audioCheckBox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.audioCheckBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.audioCheckBox.Location = new System.Drawing.Point(22, 32);
-            this.audioCheckBox.Name = "audioCheckBox";
-            this.audioCheckBox.Size = new System.Drawing.Size(123, 21);
-            this.audioCheckBox.TabIndex = 0;
-            this.audioCheckBox.Text = "Download audio";
-            this.audioCheckBox.UseVisualStyleBackColor = true;
-            this.audioCheckBox.CheckedChanged += new System.EventHandler(this.audioCheckBox_CheckedChanged);
+            this.videoRadioButton.AutoSize = true;
+            this.videoRadioButton.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.videoRadioButton.Location = new System.Drawing.Point(22, 58);
+            this.videoRadioButton.Name = "videoRadioButton";
+            this.videoRadioButton.Size = new System.Drawing.Size(121, 21);
+            this.videoRadioButton.TabIndex = 1;
+            this.videoRadioButton.Text = "Download video";
+            this.videoRadioButton.UseVisualStyleBackColor = true;
+            this.videoRadioButton.CheckedChanged += new System.EventHandler(this.videoRadioButton_CheckedChanged);
             // 
             // downloadInformationGroupBox
             // 
@@ -239,7 +381,7 @@
             // 
             // downloadButton
             // 
-            this.downloadButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.downloadButton.Cursor = System.Windows.Forms.Cursors.Default;
             this.downloadButton.FlatAppearance.BorderSize = 0;
             this.downloadButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.downloadButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -264,7 +406,7 @@
             // 
             // downloadWithLoginButton
             // 
-            this.downloadWithLoginButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.downloadWithLoginButton.Cursor = System.Windows.Forms.Cursors.Default;
             this.downloadWithLoginButton.FlatAppearance.BorderSize = 0;
             this.downloadWithLoginButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.downloadWithLoginButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -289,7 +431,7 @@
             // 
             // abortButton
             // 
-            this.abortButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.abortButton.Cursor = System.Windows.Forms.Cursors.Default;
             this.abortButton.FlatAppearance.BorderSize = 0;
             this.abortButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.abortButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -343,6 +485,19 @@
             this.downloadLocationBrowseButton.UseVisualStyleBackColor = true;
             this.downloadLocationBrowseButton.Click += new System.EventHandler(this.downloadLocationBrowseButton_Click);
             // 
+            // subtitleCheckBox
+            // 
+            this.subtitleCheckBox.AutoSize = true;
+            this.subtitleCheckBox.Cursor = System.Windows.Forms.Cursors.Default;
+            this.subtitleCheckBox.Enabled = false;
+            this.subtitleCheckBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.subtitleCheckBox.Location = new System.Drawing.Point(177, 32);
+            this.subtitleCheckBox.Name = "subtitleCheckBox";
+            this.subtitleCheckBox.Size = new System.Drawing.Size(132, 21);
+            this.subtitleCheckBox.TabIndex = 4;
+            this.subtitleCheckBox.Text = "Download subtitle";
+            this.subtitleCheckBox.UseVisualStyleBackColor = true;
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -377,8 +532,6 @@
         }
 
         #endregion
-        public System.Windows.Forms.CheckBox videoCheckBox;
-        public System.Windows.Forms.CheckBox audioCheckBox;
         public System.Windows.Forms.CheckBox forceCheckBox;
         private System.Windows.Forms.GroupBox downloadOptionsGroupBox;
         private System.Windows.Forms.GroupBox downloadInformationGroupBox;
@@ -402,6 +555,10 @@
         private System.Windows.Forms.Label downloadLocationLabel;
         private System.Windows.Forms.Button downloadLocationBrowseButton;
         private System.Windows.Forms.FolderBrowserDialog downloadLocationFolderBrowserDialog;
+        private System.Windows.Forms.RadioButton audioRadioButton;
+        private System.Windows.Forms.RadioButton videoRadioButton;
+        private System.Windows.Forms.ComboBox subtitlesComboBox;
+        public System.Windows.Forms.CheckBox subtitleCheckBox;
     }
 }
 

@@ -13,29 +13,33 @@ namespace AV_Tool
             InitializeComponent();
         }
 
-        private void audioCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void audioRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            if (audioCheckBox.Checked)
+            if (audioRadioButton.Checked)
             {
                 forceCheckBox.Text = "Force MP3 format";
                 qualityTrackBar.Enabled = true;
+                subtitleCheckBox.Enabled = false;
+                subtitlesComboBox.Enabled = false;
             }
-            videoCheckBox.Checked = !audioCheckBox.Checked;
+            videoRadioButton.Checked = !audioRadioButton.Checked;
         }
 
-        private void videoCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void videoRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            if (videoCheckBox.Checked)
+            if (videoRadioButton.Checked)
             {
                 forceCheckBox.Text = "Force MP4 format";
                 qualityTrackBar.Enabled = false;
+                subtitleCheckBox.Enabled = true;
+                subtitlesComboBox.Enabled = true;
             }
-            audioCheckBox.Checked = !videoCheckBox.Checked;
+            audioRadioButton.Checked = !videoRadioButton.Checked;
         }
 
         private void forceCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (audioCheckBox.Checked)
+            if (audioRadioButton.Checked)
             {
                 qualityTrackBar.Enabled = forceCheckBox.Checked;
             }
@@ -94,8 +98,10 @@ namespace AV_Tool
                 Downloader.downloadOptions = new Downloader.DownloadOptions(
                     Program.gui.urlTextBox.Lines,
                     Program.gui.forceCheckBox.Checked,
-                    Program.gui.audioCheckBox.Checked,
-                    Program.gui.videoCheckBox.Checked,
+                    Program.gui.audioRadioButton.Checked,
+                    Program.gui.videoRadioButton.Checked,
+                    Program.gui.subtitleCheckBox.Checked,
+                    Program.gui.subtitlesComboBox.SelectedIndex,
                     Program.gui.qualityTrackBar.Value,
                     Program.loginPrompt.usernameTextBox.Text,
                     Program.loginPrompt.passwordTextBox.Text
@@ -193,14 +199,14 @@ namespace AV_Tool
 
         public void ToggleElements(bool choice)
         {
-            if (audioCheckBox.InvokeRequired)
+            if (audioRadioButton.InvokeRequired)
             {
                 Invoke(new Action<bool>(ToggleElements), new object[] { choice });
             }
             else
             {
-                audioCheckBox.Enabled = choice;
-                videoCheckBox.Enabled = choice;
+                audioRadioButton.Enabled = choice;
+                videoRadioButton.Enabled = choice;
                 forceCheckBox.Enabled = choice;
                 downloadButton.Enabled = choice;
                 downloadWithLoginButton.Enabled = choice;
@@ -220,7 +226,7 @@ namespace AV_Tool
 
         public void ToggleDownloadBar(ProgressBarStyle style)
         {
-            if (audioCheckBox.InvokeRequired)
+            if (audioRadioButton.InvokeRequired)
             {
                 Invoke(new Action<ProgressBarStyle>(ToggleDownloadBar), new object[] { style });
             }
@@ -232,6 +238,7 @@ namespace AV_Tool
 
         private void GUI_Shown(object sender, EventArgs e)
         {
+            subtitlesComboBox.SelectedIndex = 27;
             Downloader.SetupDirectory();
             downloadLocationTextBox.Text = Downloader.downloadPath;
 

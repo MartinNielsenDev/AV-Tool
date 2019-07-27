@@ -25,6 +25,7 @@ namespace AV_Tool
         static bool isConverting = false;
         static bool isDownloading = false;
         static int downloadersActive = 0;
+        static readonly string[] subtitles = { "ab", "aa", "af", "sq", "am", "ar", "hy", "as", "ay", "az", "ba", "eu", "dz", "bh", "bi", "br", "bg", "my", "be", "km", "ca", "zh", "co", "hr", "cs", "da", "nl", "en", "eo", "et", "fo", "fj", "fi", "fr", "fy", "gl", "ka", "de", "el", "kl", "gn", "gu", "ha", "iw", "hi", "hu", "is", "in", "ia", "ie", "ik", "ga", "it", "ja", "jw", "kn", "ks", "kk", "rw", "ky", "rn", "ko", "ku", "lo", "la", "ln", "lt", "mk", "mg", "ms", "ml", "mt", "mi", "mr", "mo", "mn", "na", "ne", "no", "oc", "or", "fa", "pl", "pt", "pa", "qu", "ro", "ru", "sm", "sg", "sa", "sr", "st", "tn", "sn", "sd", "si", "ss", "sk", "sl", "so", "es", "su", "sw", "sv", "tl", "tg", "ta", "tt", "te", "th", "bo", "ti", "to", "ts", "tr", "tk", "tw", "uk", "ur", "uz", "vi", "vo", "cy", "wo", "xh", "ji", "yo", "zu"};
 
         public static void SetupDirectory()
         {
@@ -209,25 +210,40 @@ namespace AV_Tool
                 if (downloadOptions.Audio) action = Action.Audio;
                 else if (downloadOptions.Video) action = Action.Video;
             }
-            Download(url, action, downloadOptions.Quality, downloadOptions.Username, downloadOptions.Password);
+            Download(url, action, downloadOptions.Subtitle, downloadOptions.SubtitleIndex, downloadOptions.Quality, downloadOptions.Username, downloadOptions.Password);
         }
-        public static void Download(string url, Action action, int quality, string username, string password)
+        public static void Download(string url, Action action, bool subtitle, int subtitleIndex, int quality, string username, string password)
         {
             string argument = "";
 
             switch (action)
             {
                 case Action.Audio:
-                    argument = $"-o \"{downloadPath}\\%(title)s.%(ext)s\" --ignore-errors --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} --extract-audio {url}";
+                    if (subtitle)
+                        argument = $"-o \"{downloadPath}\\%(title)s.%(ext)s\" --ignore-errors --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} --extract-audio {url}";
                     break;
                 case Action.AudioForced:
                     argument = $"-o \"{downloadPath}\\%(title)s.%(ext)s\" --ignore-errors --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} --audio-quality {quality} --audio-format mp3 --extract-audio {url}";
                     break;
                 case Action.Video:
-                    argument = $"-o \"{downloadPath}\\%(title)s.%(ext)s\" --ignore-errors --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} {url}";
+                    if (subtitle)
+                    {
+                        argument = $"-o \"{downloadPath}\\%(title)s.%(ext)s\" --ignore-errors --write-sub --sub-lang {subtitles[subtitleIndex]} --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} {url}";
+                    }
+                    else
+                    {
+                        argument = $"-o \"{downloadPath}\\%(title)s.%(ext)s\" --ignore-errors --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} {url}";
+                    }
                     break;
                 case Action.VideoForced:
-                    argument = $"-o \"{downloadPath}\\%(title)s.%(ext)s\" --ignore-errors --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} --recode-video mp4 {url}";
+                    if (subtitle)
+                    {
+                        argument = $"-o \"{downloadPath}\\%(title)s.%(ext)s\" --ignore-errors --write-sub --sub-lang {subtitles[subtitleIndex]} --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} --recode-video mp4 {url}";
+                    }
+                    else
+                    {
+                        argument = $"-o \"{downloadPath}\\%(title)s.%(ext)s\" --ignore-errors --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} --recode-video mp4 {url}";
+                    }
                     break;
             }
             if (username != "" && password != "")
@@ -415,16 +431,20 @@ namespace AV_Tool
             public bool Force;
             public bool Audio;
             public bool Video;
+            public bool Subtitle;
+            public int SubtitleIndex;
             public int Quality;
             public string Username;
             public string Password;
 
-            public DownloadOptions(string[] lines, bool force, bool audio, bool video, int quality, string username, string password)
+            public DownloadOptions(string[] lines, bool force, bool audio, bool video, bool subtitle, int subtitleIndex, int quality, string username, string password)
             {
                 Lines = lines;
                 Force = force;
                 Audio = audio;
                 Video = video;
+                Subtitle = subtitle;
+                SubtitleIndex = subtitleIndex;
                 Quality = quality;
                 Username = username;
                 Password = password;

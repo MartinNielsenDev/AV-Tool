@@ -39,7 +39,7 @@
             // 
             // downloadButton
             // 
-            this.downloadButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.downloadButton.Cursor = System.Windows.Forms.Cursors.Default;
             this.downloadButton.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.downloadButton.Location = new System.Drawing.Point(139, 230);
             this.downloadButton.Name = "downloadButton";
