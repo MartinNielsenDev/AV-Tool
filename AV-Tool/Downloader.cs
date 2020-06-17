@@ -25,7 +25,7 @@ namespace AV_Tool
         static bool isConverting = false;
         static bool isDownloading = false;
         static int downloadersActive = 0;
-        static readonly string[] subtitles = { "ab", "aa", "af", "sq", "am", "ar", "hy", "as", "ay", "az", "ba", "eu", "dz", "bh", "bi", "br", "bg", "my", "be", "km", "ca", "zh", "co", "hr", "cs", "da", "nl", "en", "eo", "et", "fo", "fj", "fi", "fr", "fy", "gl", "ka", "de", "el", "kl", "gn", "gu", "ha", "iw", "hi", "hu", "is", "in", "ia", "ie", "ik", "ga", "it", "ja", "jw", "kn", "ks", "kk", "rw", "ky", "rn", "ko", "ku", "lo", "la", "ln", "lt", "mk", "mg", "ms", "ml", "mt", "mi", "mr", "mo", "mn", "na", "ne", "no", "oc", "or", "fa", "pl", "pt", "pa", "qu", "ro", "ru", "sm", "sg", "sa", "sr", "st", "tn", "sn", "sd", "si", "ss", "sk", "sl", "so", "es", "su", "sw", "sv", "tl", "tg", "ta", "tt", "te", "th", "bo", "ti", "to", "ts", "tr", "tk", "tw", "uk", "ur", "uz", "vi", "vo", "cy", "wo", "xh", "ji", "yo", "zu"};
+        static readonly string[] subtitles = { "ab", "aa", "af", "sq", "am", "ar", "hy", "as", "ay", "az", "ba", "eu", "dz", "bh", "bi", "br", "bg", "my", "be", "km", "ca", "zh", "co", "hr", "cs", "da", "nl", "en", "eo", "et", "fo", "fj", "fi", "fr", "fy", "gl", "ka", "de", "el", "kl", "gn", "gu", "ha", "iw", "hi", "hu", "is", "in", "ia", "ie", "ik", "ga", "it", "ja", "jw", "kn", "ks", "kk", "rw", "ky", "rn", "ko", "ku", "lo", "la", "ln", "lt", "mk", "mg", "ms", "ml", "mt", "mi", "mr", "mo", "mn", "na", "ne", "no", "oc", "or", "fa", "pl", "pt", "pa", "qu", "ro", "ru", "sm", "sg", "sa", "sr", "st", "tn", "sn", "sd", "si", "ss", "sk", "sl", "so", "es", "su", "sw", "sv", "tl", "tg", "ta", "tt", "te", "th", "bo", "ti", "to", "ts", "tr", "tk", "tw", "uk", "ur", "uz", "vi", "vo", "cy", "wo", "xh", "ji", "yo", "zu" };
 
         public static void SetupDirectory()
         {
@@ -58,8 +58,7 @@ namespace AV_Tool
                 {
                     thisVersion = FileVersionInfo.GetVersionInfo(Path.Combine(path, "youtube-dl.exe")).FileVersion;
                 }
-
-                if (json.tag_name.Split('.').Length == 3 && json.assets.Count > 0 && !json.tag_name.Equals(thisVersion))
+                if (json.tag_name.Split('.').Length >= 3 && json.assets.Count > 0 && !json.tag_name.Equals(thisVersion))
                 {
                     for (int i = 0; i < json.assets.Count; i++)
                     {
@@ -219,8 +218,7 @@ namespace AV_Tool
             switch (action)
             {
                 case Action.Audio:
-                    if (subtitle)
-                        argument = $"-o \"{downloadPath}\\%(title)s.%(ext)s\" --ignore-errors --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} --extract-audio {url}";
+                    argument = $"-o \"{downloadPath}\\%(title)s.%(ext)s\" --ignore-errors --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} --extract-audio {url}";
                     break;
                 case Action.AudioForced:
                     argument = $"-o \"{downloadPath}\\%(title)s.%(ext)s\" --ignore-errors --prefer-ffmpeg --ffmpeg-location {Path.Combine(path, "ffmpeg.exe")} --audio-quality {quality} --audio-format mp3 --extract-audio {url}";
