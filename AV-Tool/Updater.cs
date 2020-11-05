@@ -8,7 +8,7 @@ namespace AV_Tool
 {
     class Updater
     {
-        static readonly string thisVersion = "1.3.5";
+        static readonly string thisVersion = "1.3.6";
 
         public static void CheckNewestVersion()
         {
@@ -47,6 +47,13 @@ namespace AV_Tool
             }
             catch { }
         }
+    }
+    public class YouTubeDLStats
+    {
+        [JsonProperty("version")]
+        public string version { get; set; }
+        [JsonProperty("url")]
+        public string url { get; set; }
     }
     public class Json
     {

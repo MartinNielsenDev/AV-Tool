@@ -47,31 +47,56 @@ namespace AV_Tool
             {
                 string serverResponse = "";
                 string thisVersion = "";
-                using (WebClient client = new WebClient())
+                using(WebClient client = new WebClient())
                 {
                     client.Headers.Add("User-Agent", "Mozilla/5.0");
-                    serverResponse = client.DownloadString("https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest");
+                    serverResponse = client.DownloadString("https://martindev.dk/api/youtube-dl/latest");
                 }
-                Json json = JsonConvert.DeserializeObject<Json>(serverResponse);
+                YouTubeDLStats json = JsonConvert.DeserializeObject<YouTubeDLStats>(serverResponse);
 
                 if (File.Exists(Path.Combine(path, "youtube-dl.exe")))
                 {
                     thisVersion = FileVersionInfo.GetVersionInfo(Path.Combine(path, "youtube-dl.exe")).FileVersion;
                 }
-                if (json.tag_name.Split('.').Length >= 3 && json.assets.Count > 0 && !json.tag_name.Equals(thisVersion))
+                if (!json.version.Equals(thisVersion))
                 {
-                    for (int i = 0; i < json.assets.Count; i++)
-                    {
-                        if (json.assets[i].name.Equals("youtube-dl.exe"))
-                        {
-                            return json.assets[i].browser_download_url;
-                        }
-                    }
+                    return json.url;
                 }
             }
-            catch { }
+            catch {}
             return "";
         }
+        //public static string CheckNewestYoutubeDLVersion()
+        //{
+        //    try
+        //    {
+        //        string serverResponse = "";
+        //        string thisVersion = "";
+        //        using (WebClient client = new WebClient())
+        //        {
+        //            client.Headers.Add("User-Agent", "Mozilla/5.0");
+        //            serverResponse = client.DownloadString("https://api.github.com/repos/ytdl-org/youtube-dl/releases/latest");
+        //        }
+        //        Json json = JsonConvert.DeserializeObject<Json>(serverResponse);
+
+        //        if (File.Exists(Path.Combine(path, "youtube-dl.exe")))
+        //        {
+        //            thisVersion = FileVersionInfo.GetVersionInfo(Path.Combine(path, "youtube-dl.exe")).FileVersion;
+        //        }
+        //        if (json.tag_name.Split('.').Length >= 3 && json.assets.Count > 0 && !json.tag_name.Equals(thisVersion))
+        //        {
+        //            for (int i = 0; i < json.assets.Count; i++)
+        //            {
+        //                if (json.assets[i].name.Equals("youtube-dl.exe"))
+        //                {
+        //                    return json.assets[i].browser_download_url;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch { }
+        //    return "";
+        //}
         public static bool VerifyFiles()
         {
             string[] md5LocalHash = { "", "" };
