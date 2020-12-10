@@ -1,39 +1,44 @@
 ﻿using System;
-using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 
 namespace AV_Tool
 {
-    static class Program
+    internal static class Program
     {
-        public static GUI gui;
-        public static LoginForm loginPrompt;
+        public static Gui Gui;
+        public static LoginForm LoginPrompt;
 
         [STAThread]
-        static void Main()
+        private static void Main()
         {
-            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler((s, assembly) =>
+            AppDomain.CurrentDomain.AssemblyResolve += (s, assembly) =>
             {
-                if (assembly.Name.Contains("Newtonsoft.Json,"))
+                if (!assembly.Name.Contains("Newtonsoft.Json,"))
                 {
-                    using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("AV_Tool.Resources.Newtonsoft.Json.dll"))
-                    {
-                        byte[] assemblyData = new byte[stream.Length];
-
-                        stream.Read(assemblyData, 0, assemblyData.Length);
-                        return Assembly.Load(assemblyData);
-                    }
+                    return null;
                 }
-                return null;
-            });
+
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("AV_Tool.Resources.Newtonsoft.Json.dll"))
+                {
+                    if (stream == null)
+                    {
+                        return null;
+                    }
+
+                    var assemblyData = new byte[stream.Length];
+
+                    stream.Read(assemblyData, 0, assemblyData.Length);
+                    return Assembly.Load(assemblyData);
+                }
+            };
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Updater.CheckNewestVersion();
-            gui = new GUI();
-            loginPrompt = new LoginForm();
+            Gui = new Gui();
+            LoginPrompt = new LoginForm();
 
-            Application.Run(gui);
+            Application.Run(Gui);
         }
     }
 }

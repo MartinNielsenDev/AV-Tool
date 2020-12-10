@@ -10,11 +10,12 @@ namespace AV_Tool
 {
     public partial class UpdateNotificationForm : Form
     {
-        public string downloadUrl = String.Empty;
-        public int downloadSize = 0;
-        private int downloadProgress = 0;
-        private double previousPercentage = 0;
-        private WebClient webClient = new WebClient();
+        public string DownloadUrl = string.Empty;
+        public int DownloadSize = 0;
+
+        private int _downloadProgress;
+        private double _previousPercentage;
+        private readonly WebClient _webClient = new WebClient();
 
         public UpdateNotificationForm()
         {
@@ -32,10 +33,10 @@ namespace AV_Tool
             updateButton.Enabled = false;
             laterButton.Enabled = false;
 
-            if (!downloadUrl.Equals(String.Empty))
+            if (!DownloadUrl.Equals(String.Empty))
             {
                 changeLogTextBox.Text = "";
-                AppendChangeLog("Starting download... size " + FileSuffix(downloadSize));
+                AppendChangeLog("Starting download... size " + FileSuffix(DownloadSize));
                 DownloadUpdate();
             }
         }
@@ -52,18 +53,21 @@ namespace AV_Tool
 
         private void webClient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            double bytesDownloaded = double.Parse(e.BytesReceived.ToString());
-            double totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
-            double percentage = bytesDownloaded / totalBytes;
+            var bytesDownloaded = double.Parse(e.BytesReceived.ToString());
+            var totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
+            var percentage = bytesDownloaded / totalBytes;
 
-            downloadProgress++;
+            _downloadProgress++;
 
-            if (Math.Truncate(percentage * 100) != previousPercentage)
+            if (Math.Truncate(percentage * 100) == _previousPercentage)
             {
-                previousPercentage = Math.Truncate(percentage * 100);
-                AppendChangeLog("Download " + Math.Truncate(percentage * 100) + "%");
+                return;
             }
+
+            _previousPercentage = Math.Truncate(percentage * 100);
+            AppendChangeLog("Download " + Math.Truncate(percentage * 100) + "%");
         }
+
         private void webClient_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             if (!IsDisposed)
@@ -82,24 +86,30 @@ namespace AV_Tool
         {
             try
             {
-                webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(webClient_DownloadProgressChanged);
-                webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(webClient_DownloadFileCompleted);
-                webClient.DownloadFileAsync(new Uri(downloadUrl), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"av-tool\AV-Tool.exe"));
+                _webClient.DownloadProgressChanged += webClient_DownloadProgressChanged;
+                _webClient.DownloadFileCompleted += webClient_DownloadFileCompleted;
+                _webClient.DownloadFileAsync(new Uri(DownloadUrl), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"av-tool\AV-Tool.exe"));
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
-        public void OpenUpdate()
-        {
-            string argument = "/C choice /C Y /N /D Y /T 4 & Del /F /Q \"{0}\" & choice /C Y /N /D Y /T 2 & Move /Y \"{1}\" \"{2}\" & Start \"\" /D \"{3}\" \"{4}\" {5}";
-            string tempPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"av-tool\AV-Tool.exe");
-            string currentPath = Application.ExecutablePath;
 
-            ProcessStartInfo Info = new ProcessStartInfo();
-            Info.Arguments = String.Format(argument, currentPath, tempPath, currentPath, Path.GetDirectoryName(currentPath), Path.GetFileName(currentPath), "");
-            Info.WindowStyle = ProcessWindowStyle.Hidden;
-            Info.CreateNoWindow = true;
-            Info.FileName = "cmd.exe";
-            Process.Start(Info);
+        private static void OpenUpdate()
+        {
+            const string argument = "/C choice /C Y /N /D Y /T 4 & Del /F /Q \"{0}\" & choice /C Y /N /D Y /T 2 & Move /Y \"{1}\" \"{2}\" & Start \"\" /D \"{3}\" \"{4}\" {5}";
+            var tempPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"av-tool\AV-Tool.exe");
+            var currentPath = Application.ExecutablePath;
+
+            var info = new ProcessStartInfo
+            {
+                Arguments = string.Format(argument, currentPath, tempPath, currentPath, Path.GetDirectoryName(currentPath), Path.GetFileName(currentPath), ""),
+                WindowStyle = ProcessWindowStyle.Hidden,
+                CreateNoWindow = true,
+                FileName = "cmd.exe"
+            };
+            Process.Start(info);
             Environment.Exit(0);
         }
 
@@ -109,10 +119,12 @@ namespace AV_Tool
             {
                 return Math.Round((double)fileSize / 1024 / 1024, 2) + " MB";
             }
-            else if ((double)fileSize / 1024 > 0)
+
+            if ((double)fileSize / 1024 > 0)
             {
                 return Math.Round((double)fileSize / 1024, 2) + " KB";
             }
+
             return fileSize + " B";
         }
     }

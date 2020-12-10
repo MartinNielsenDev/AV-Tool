@@ -17,15 +17,17 @@ namespace AV_Tool
 
         private void downloadButton_Click(object sender, EventArgs e)
         {
-            if (usernameTextBox.Text != "" && passwordTextBox.Text != "")
+            if (usernameTextBox.Text == "" || passwordTextBox.Text == "")
             {
-                Hide();
-                Program.gui.urlTextBox.Text = Program.gui.urlTextBox.Text.Replace("#", "");
-                Program.gui.totalFileSizeTextBox.Text = "";
-                Program.gui.CreateDownloadOptions();
-                Downloader.abort = false;
-                Downloader.PrepareDownload();
+                return;
             }
+
+            Hide();
+            Program.Gui.urlTextBox.Text = Program.Gui.urlTextBox.Text.Replace("#", "");
+            Program.Gui.totalFileSizeTextBox.Text = "";
+            Program.Gui.CreateDownloadOptions();
+            Downloader.Abort = false;
+            Downloader.PrepareDownload();
         }
 
         private void LoginPrompt_FormClosing(object sender, FormClosingEventArgs e)

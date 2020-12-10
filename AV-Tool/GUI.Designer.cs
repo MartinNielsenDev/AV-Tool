@@ -1,6 +1,6 @@
 ﻿namespace AV_Tool
 {
-    partial class GUI
+    partial class Gui
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUI));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Gui));
             this.downloadOptionsGroupBox = new System.Windows.Forms.GroupBox();
             this.subtitlesComboBox = new System.Windows.Forms.ComboBox();
             this.forceCheckBox = new System.Windows.Forms.CheckBox();
@@ -517,7 +517,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "GUI";
+            this.Name = "Gui";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AV Tool";
             this.Shown += new System.EventHandler(this.GUI_Shown);

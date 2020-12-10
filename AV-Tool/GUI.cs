@@ -6,9 +6,9 @@ using System.Windows.Forms;
 
 namespace AV_Tool
 {
-    public partial class GUI : Form
+    public partial class Gui : Form
     {
-        public GUI()
+        public Gui()
         {
             InitializeComponent();
         }
@@ -22,6 +22,7 @@ namespace AV_Tool
                 subtitleCheckBox.Enabled = false;
                 subtitlesComboBox.Enabled = false;
             }
+
             videoRadioButton.Checked = !audioRadioButton.Checked;
         }
 
@@ -34,6 +35,7 @@ namespace AV_Tool
                 subtitleCheckBox.Enabled = true;
                 subtitlesComboBox.Enabled = true;
             }
+
             audioRadioButton.Checked = !videoRadioButton.Checked;
         }
 
@@ -47,65 +49,67 @@ namespace AV_Tool
 
         private void downloadButton_Click(object sender, EventArgs e)
         {
-            Program.loginPrompt.usernameTextBox.Text = "";
-            Program.loginPrompt.passwordTextBox.Text = "";
-            Program.gui.totalFileSizeTextBox.Text = "";
-            Program.loginPrompt.Hide();
-            Program.gui.urlTextBox.Text = Program.gui.urlTextBox.Text.Replace("#", "");
+            Program.LoginPrompt.usernameTextBox.Text = "";
+            Program.LoginPrompt.passwordTextBox.Text = "";
+            Program.Gui.totalFileSizeTextBox.Text = "";
+            Program.LoginPrompt.Hide();
+            Program.Gui.urlTextBox.Text = Program.Gui.urlTextBox.Text.Replace("#", "");
             CreateDownloadOptions();
-            Downloader.abort = false;
+            Downloader.Abort = false;
             Downloader.PrepareDownload();
         }
 
         private void downloadWithLoginButton_Click(object sender, EventArgs e)
         {
-            Program.loginPrompt.Show();
+            Program.LoginPrompt.Show();
         }
 
         private void abortButton_Click(object sender, EventArgs e)
         {
-            foreach (Process process in Process.GetProcessesByName("youtube-dl"))
+            foreach (var process in Process.GetProcessesByName("youtube-dl"))
             {
                 process.Kill();
             }
-            foreach (Process process in Process.GetProcessesByName("ffmpeg"))
+
+            foreach (var process in Process.GetProcessesByName("ffmpeg"))
             {
                 process.Kill();
             }
-            Downloader.abort = true;
+
+            Downloader.Abort = true;
         }
 
         private void downloadLocationBrowseButton_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog folderDialog = new FolderBrowserDialog();
+            var folderDialog = new FolderBrowserDialog();
 
             if (folderDialog.ShowDialog() == DialogResult.OK)
             {
-                File.WriteAllText(Path.Combine(Downloader.path, "downloadLocation"), folderDialog.SelectedPath);
-                Downloader.downloadPath = folderDialog.SelectedPath;
+                File.WriteAllText(Path.Combine(Downloader.Path, "downloadLocation"), folderDialog.SelectedPath);
+                Downloader.DownloadPath = folderDialog.SelectedPath;
                 downloadLocationTextBox.Text = folderDialog.SelectedPath;
             }
         }
 
         public void CreateDownloadOptions()
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
                 Invoke(new Action(CreateDownloadOptions));
             }
             else
             {
-                Downloader.downloadOptions = new Downloader.DownloadOptions(
-                    Program.gui.urlTextBox.Lines,
-                    Program.gui.forceCheckBox.Checked,
-                    Program.gui.audioRadioButton.Checked,
-                    Program.gui.videoRadioButton.Checked,
-                    Program.gui.subtitleCheckBox.Checked,
-                    Program.gui.subtitlesComboBox.SelectedIndex,
-                    Program.gui.qualityTrackBar.Value,
-                    Program.loginPrompt.usernameTextBox.Text,
-                    Program.loginPrompt.passwordTextBox.Text
-                    );
+                Downloader._downloadOptions = new Downloader.DownloadOptions(
+                    Program.Gui.urlTextBox.Lines,
+                    Program.Gui.forceCheckBox.Checked,
+                    Program.Gui.audioRadioButton.Checked,
+                    Program.Gui.videoRadioButton.Checked,
+                    Program.Gui.subtitleCheckBox.Checked,
+                    Program.Gui.subtitlesComboBox.SelectedIndex,
+                    Program.Gui.qualityTrackBar.Value,
+                    Program.LoginPrompt.usernameTextBox.Text,
+                    Program.LoginPrompt.passwordTextBox.Text
+                );
             }
         }
 
@@ -120,7 +124,7 @@ namespace AV_Tool
                 if (verboseLogsCheckBox.Checked && !isVerbose) return;
                 else if (!verboseLogsCheckBox.Checked && isVerbose) return;
 
-                string output = message;
+                var output = message;
                 if (newLine) output += Environment.NewLine;
 
                 logTextBox.AppendText(output);
@@ -129,10 +133,11 @@ namespace AV_Tool
 
         private bool IsFileSizeAdded(string fileSize)
         {
-            for (int i = 0; i < Downloader.fileSizes.Count; i++)
+            for (var i = 0; i < Downloader.FileSizes.Count; i++)
             {
-                if (Downloader.fileSizes[i].Equals(fileSize)) return true;
+                if (Downloader.FileSizes[i].Equals(fileSize)) return true;
             }
+
             return false;
         }
 
@@ -148,41 +153,52 @@ namespace AV_Tool
 
                 if (!IsFileSizeAdded($"{size} {sizeUnit}"))
                 {
-                    Downloader.fileSizes.Add($"{size} {sizeUnit}");
+                    Downloader.FileSizes.Add($"{size} {sizeUnit}");
 
                     if (totalFileSizeTextBox.Text == "")
                     {
-                        totalFileSizeTextBox.Text = $"{size} {sizeUnit}";
+                        totalFileSizeTextBox.Text = $@"{size} {sizeUnit}";
                     }
                     else
                     {
                         UpdateFileSize(totalFileSizeTextBox, size, sizeUnit);
                     }
                 }
-                downloadSpeedIndicatorLabel.Text = $"{speed} {speedUnit}/s";
-                try { downloadProgressBar.Value = Convert.ToInt16(percent); } catch { }
+
+                downloadSpeedIndicatorLabel.Text = $@"{speed} {speedUnit}/s";
+                try
+                {
+                    downloadProgressBar.Value = Convert.ToInt16(percent);
+                }
+                catch
+                {
+                }
             }
         }
-        private void UpdateFileSize(TextBox textBox, string size, string sizeUnit)
+
+        private static void UpdateFileSize(Control textBox, string size, string sizeUnit)
         {
-            string[] textBoxInfo = textBox.Text.Split(' ');
+            var textBoxInfo = textBox.Text.Split(' ');
 
-            if (double.TryParse(textBoxInfo[0], out double currentFileSize) &&
-                double.TryParse(size, out double newFileSize))
+            if (!double.TryParse(textBoxInfo[0], out var currentFileSize) ||
+                !double.TryParse(size, out var newFileSize))
             {
-                double outputTotalFileSize = 0.0;
-                if (textBoxInfo[1] == "MiB") currentFileSize *= 1000;
-                if (sizeUnit == "MiB") newFileSize *= 1000;
-
-                outputTotalFileSize = currentFileSize + newFileSize;
-
-                if (currentFileSize + newFileSize >= 1000)
-                {
-                    outputTotalFileSize /= 1000;
-                    sizeUnit = "MiB";
-                }
-                textBox.Text = $"{Math.Round(outputTotalFileSize, 2)} {sizeUnit}";
+                return;
             }
+
+            var outputTotalFileSize = 0.0;
+            if (textBoxInfo[1] == "MiB") currentFileSize *= 1000;
+            if (sizeUnit == "MiB") newFileSize *= 1000;
+
+            outputTotalFileSize = currentFileSize + newFileSize;
+
+            if (currentFileSize + newFileSize >= 1000)
+            {
+                outputTotalFileSize /= 1000;
+                sizeUnit = "MiB";
+            }
+
+            textBox.Text = $@"{Math.Round(outputTotalFileSize, 2)} {sizeUnit}";
         }
 
         public void UpdateURLs(string[] lines)
@@ -193,7 +209,7 @@ namespace AV_Tool
             }
             else
             {
-                Program.gui.urlTextBox.Lines = lines;
+                Program.Gui.urlTextBox.Lines = lines;
             }
         }
 
@@ -213,14 +229,7 @@ namespace AV_Tool
                 urlTextBox.Enabled = choice;
                 downloadLocationBrowseButton.Enabled = choice;
 
-                if (choice)
-                {
-                    Program.gui.downloadProgressBar.Style = ProgressBarStyle.Blocks;
-                }
-                else
-                {
-                    Program.gui.downloadProgressBar.Style = ProgressBarStyle.Marquee;
-                }
+                Program.Gui.downloadProgressBar.Style = choice ? ProgressBarStyle.Blocks : ProgressBarStyle.Marquee;
             }
         }
 
@@ -232,7 +241,7 @@ namespace AV_Tool
             }
             else
             {
-                Program.gui.downloadProgressBar.Style = style;
+                Program.Gui.downloadProgressBar.Style = style;
             }
         }
 
@@ -240,7 +249,7 @@ namespace AV_Tool
         {
             subtitlesComboBox.SelectedIndex = 27;
             Downloader.SetupDirectory();
-            downloadLocationTextBox.Text = Downloader.downloadPath;
+            downloadLocationTextBox.Text = Downloader.DownloadPath;
 
             new Thread(() =>
             {

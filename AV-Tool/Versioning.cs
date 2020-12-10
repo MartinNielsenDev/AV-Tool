@@ -1,40 +1,43 @@
 ﻿namespace AV_Tool
 {
-    class Versioning
+    internal class Versioning
     {
-        public int major = 0;
-        public int minor = 0;
-        public int patch = 0;
+        private readonly int _major;
+        private readonly int _minor;
+        private readonly int _patch;
 
         public Versioning(string rawVersion)
         {
-            string[] versions = rawVersion.Split('.');
+            var versions = rawVersion.Split('.');
 
-            if (versions.Length == 3)
+            if (versions.Length != 3)
             {
-                int.TryParse(versions[0], out this.major);
-                int.TryParse(versions[1], out this.minor);
-                int.TryParse(versions[2], out this.patch);
+                return;
             }
+
+            int.TryParse(versions[0], out _major);
+            int.TryParse(versions[1], out _minor);
+            int.TryParse(versions[2], out _patch);
         }
+
         public bool IsNewerThan(Versioning version)
         {
-            if (this.major > version.major)
+            if (_major > version._major)
             {
                 return true;
             }
-            else if (this.major == version.major)
+
+            if (_major != version._major)
             {
-                if (this.minor > version.minor)
-                {
-                    return true;
-                }
-                else if (this.minor == version.minor && this.patch > version.patch)
-                {
-                    return true;
-                }
+                return false;
             }
-            return false;
+
+            if (_minor > version._minor)
+            {
+                return true;
+            }
+
+            return _minor == version._minor && _patch > version._patch;
         }
     }
 }
